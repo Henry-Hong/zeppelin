@@ -14,10 +14,10 @@ var baseConfig = {
     isVerbose: true,
     includeStackTrace: false,
     defaultTimeoutInterval: 300000, // 5 min
-    print: function() {}, // remove protractor dot reporter, we are using jasmine-spec-reporter
+    print: function () {}, // remove protractor dot reporter, we are using jasmine-spec-reporter
   },
 
-  onPrepare: function() {
+  onPrepare: function () {
     // should be false for angular apps
     // browser.ignoreSynchronization = true;
 
@@ -27,17 +27,19 @@ var baseConfig = {
 
     // add reporter to display executed tests in console
     var SpecReporter = require('jasmine-spec-reporter').SpecReporter;
-    jasmine.getEnv().addReporter(new SpecReporter({
-      spec: {
-        displayStacktrace: true
-      }
-    }));
+    jasmine.getEnv().addReporter(
+      new SpecReporter({
+        spec: {
+          displayStacktrace: true,
+        },
+      }),
+    );
   },
 };
 
 var chromeOptions = {
-  args: ['--disable-gpu', '--no-sandbox', 'window-size=1920, 1080', '--disable-browser-side-navigation']
-}
+  args: ['--disable-gpu', '--no-sandbox', 'window-size=1920, 1080', '--disable-browser-side-navigation'],
+};
 
 baseConfig.capabilities.chromeOptions = chromeOptions;
 

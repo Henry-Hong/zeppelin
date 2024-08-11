@@ -1,25 +1,25 @@
-describe('Factory: NoteList', function() {
+describe('Factory: NoteList', function () {
   let noteList;
 
-  beforeEach(function() {
+  beforeEach(function () {
     angular.mock.module('zeppelinWebApp');
 
-    inject(function($injector) {
+    inject(function ($injector) {
       noteList = $injector.get('noteListFactory');
     });
   });
 
-  it('should generate both flat list and folder-based list properly', function() {
+  it('should generate both flat list and folder-based list properly', function () {
     let notesList = [
-      {path: 'A', id: '000001'},
-      {path: 'B', id: '000002'},
-      {id: '000003'},                     // note without path
-      {path: '/C/CA', id: '000004'},
-      {path: '/C/CB', id: '000005'},
-      {path: '/C/CB/CBA', id: '000006'},  // same path with a dir
-      {path: '/C/CB/CBA', id: '000007'},  // same path with another note
-      {path: 'C///CB//CBB', id: '000008'},
-      {path: 'D/D[A/DA]B', id: '000009'},   // check if '[' and ']' considered as folder seperator
+      { path: 'A', id: '000001' },
+      { path: 'B', id: '000002' },
+      { id: '000003' }, // note without path
+      { path: '/C/CA', id: '000004' },
+      { path: '/C/CB', id: '000005' },
+      { path: '/C/CB/CBA', id: '000006' }, // same path with a dir
+      { path: '/C/CB/CBA', id: '000007' }, // same path with another note
+      { path: 'C///CB//CBB', id: '000008' },
+      { path: 'D/D[A/DA]B', id: '000009' }, // check if '[' and ']' considered as folder seperator
     ];
     noteList.setNotes(notesList);
 

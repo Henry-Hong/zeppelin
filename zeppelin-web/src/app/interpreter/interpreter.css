@@ -17,7 +17,7 @@
   padding: 10px 15px 15px 15px;
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .interpreterHead .header {
@@ -30,7 +30,7 @@
   display: block;
   height: 20px;
   resize: none;
-  border: 1px solid #CCCCCC;
+  border: 1px solid #cccccc;
   font-size: 12px;
 }
 
@@ -38,7 +38,7 @@
   width: 100%;
   display: block;
   height: 23px;
-  border: 1px solid #CCCCCC;
+  border: 1px solid #cccccc;
   border-radius: 3px;
   vertical-align: middle;
   font-size: 12px;
@@ -73,11 +73,11 @@
 }
 
 .interpreter table tr .interpreterPropertyKey {
-  padding : 5px 5px 5px 5px;
+  padding: 5px 5px 5px 5px;
 }
 
 .interpreter table tr .interpreterPropertyValue {
-  padding : 5px 5px 5px 5px;
+  padding: 5px 5px 5px 5px;
   display: block;
   max-height: 100px;
   overflow-y: auto;
@@ -85,19 +85,19 @@
 
 .permissionsForm {
   list-style-type: none;
-  background: #EFEFEF;
+  background: #efefef;
   padding: 10px 10px 10px 10px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  border: 1px solid #E5E5E5;
+  border: 1px solid #e5e5e5;
 }
 
 .interpreterSettingAdd {
-  margin : 5px 5px 5px 5px;
-  padding : 10px 10px 10px 10px;
+  margin: 5px 5px 5px 5px;
+  padding: 10px 10px 10px 10px;
 }
 
 .editable-wrap {
-  width : 100%;
+  width: 100%;
 }
 
 .interpreter h5 {
@@ -116,7 +116,7 @@
 
 .blackOpc:hover {
   color: #000;
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .remove-margin-top-bottom {

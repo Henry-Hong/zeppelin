@@ -36,7 +36,7 @@
   background-color: transparent;
 }
 
-.navbar-inverse .navbar-nav > li > a.navbar-menu-notebook:hover{
+.navbar-inverse .navbar-nav > li > a.navbar-menu-notebook:hover {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
@@ -78,10 +78,14 @@
   top: 0;
   left: 0;
   right: 0;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
-.navbar-fixed-top.headroom--unpinned { top: -100px; }
-.navbar-fixed-top.headroom--pinned { top: 0; /** `navbar` top */ }
+.navbar-fixed-top.headroom--unpinned {
+  top: -100px;
+}
+.navbar-fixed-top.headroom--pinned {
+  top: 0; /** `navbar` top */
+}
 
 .navbar-inverse {
   background: #3071a9;
@@ -120,7 +124,7 @@
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .navbar-inverse .navbar-brand {
@@ -147,7 +151,7 @@ a.navbar-brand:hover {
   }
 
   .navbar-inverse .navbar-nav .open .dropdown-menu > .scrollbar-container > li > a {
-    color: #D3D3D3;
+    color: #d3d3d3;
   }
 
   .navbar-inverse .navbar-nav .open .dropdown-menu > .scrollbar-container > li > a:hover,
@@ -165,11 +169,12 @@ a.navbar-brand:hover {
   }
 
   .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
-    background: #3071A9;
+    background: #3071a9;
   }
 
-  .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
-    border-color: #3071A9;
+  .navbar-inverse .navbar-collapse,
+  .navbar-inverse .navbar-form {
+    border-color: #3071a9;
   }
 }
 
@@ -179,9 +184,8 @@ a.navbar-brand:hover {
   text-overflow: ellipsis;
   max-width: 120px;
   display: inline-block;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-
 
 /* About Dialog */
 
@@ -226,7 +230,7 @@ a.navbar-brand:hover {
 
 .modal-body-about .content h3 {
   font-family: 'Patua One';
-  color: #3071A9;
+  color: #3071a9;
   font-size: 30px;
   margin: 0 auto;
 }

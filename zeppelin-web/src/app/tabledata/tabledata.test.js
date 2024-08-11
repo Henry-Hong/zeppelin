@@ -15,21 +15,21 @@
 import TableData from './tabledata.js';
 import PivotTransformation from './pivot.js';
 
-describe('TableData build', function() {
+describe('TableData build', function () {
   let td;
 
-  beforeEach(function() {
+  beforeEach(function () {
     console.log(TableData);
     td = new TableData();
   });
 
-  it('should initialize the default value', function() {
+  it('should initialize the default value', function () {
     expect(td.columns.length).toBe(0);
     expect(td.rows.length).toBe(0);
     expect(td.comment).toBe('');
   });
 
-  it('should able to create Tabledata from paragraph result', function() {
+  it('should able to create Tabledata from paragraph result', function () {
     td.loadParagraphResult({
       type: 'TABLE',
       msg: 'key\tvalue\na\t10\nb\t20\n\nhello',
@@ -41,38 +41,41 @@ describe('TableData build', function() {
   });
 });
 
-describe('PivotTransformation build', function() {
+describe('PivotTransformation build', function () {
   let pt;
 
-  beforeEach(function() {
+  beforeEach(function () {
     console.log(PivotTransformation);
     pt = new PivotTransformation();
   });
 
-  it('check the result of keys, groups and values unique', function() {
+  it('check the result of keys, groups and values unique', function () {
     // set inited mock data
     let config = {
       common: {
         pivot: {
-          keys: [{index: 4, name: '4'},
-                 {index: 3, name: '3'},
-                 {index: 4, name: '4'},
-                 {index: 3, name: '3'},
-                 {index: 3, name: '3'},
-                 {index: 3, name: '3'},
-                 {index: 3, name: '3'},
-                 {index: 5, name: '5'}],
+          keys: [
+            { index: 4, name: '4' },
+            { index: 3, name: '3' },
+            { index: 4, name: '4' },
+            { index: 3, name: '3' },
+            { index: 3, name: '3' },
+            { index: 3, name: '3' },
+            { index: 3, name: '3' },
+            { index: 5, name: '5' },
+          ],
           groups: [],
           values: [],
         },
       },
     };
     pt.tableDataColumns = [
-        {index: 1, name: '1'},
-        {index: 2, name: '2'},
-        {index: 3, name: '3'},
-        {index: 4, name: '4'},
-        {index: 5, name: '5'}];
+      { index: 1, name: '1' },
+      { index: 2, name: '2' },
+      { index: 3, name: '3' },
+      { index: 4, name: '4' },
+      { index: 5, name: '5' },
+    ];
 
     pt.setConfig(config);
 
@@ -84,7 +87,7 @@ describe('PivotTransformation build', function() {
     expect(config.common.pivot.keys[2].index).toBe(5);
   });
 
-  it('should aggregate values correctly', function() {
+  it('should aggregate values correctly', function () {
     let td = new TableData();
     td.loadParagraphResult({
       type: 'TABLE',
@@ -96,16 +99,16 @@ describe('PivotTransformation build', function() {
         pivot: {
           keys: [
             {
-              'name': 'key',
-              'index': 0.0,
+              name: 'key',
+              index: 0.0,
             },
           ],
           groups: [],
           values: [
             {
-              'name': 'value',
-              'index': 1.0,
-              'aggr': 'sum',
+              name: 'value',
+              index: 1.0,
+              aggr: 'sum',
             },
           ],
         },

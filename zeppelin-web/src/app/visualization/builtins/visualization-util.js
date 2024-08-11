@@ -82,7 +82,7 @@ export function initializeTableConfig(config, tableOptionSpecs) {
   const previousSpecHash = config.tableOptionSpecHash;
 
   // check whether spec is updated or not
-  if (typeof previousSpecHash === 'undefined' || (previousSpecHash !== newSpecHash)) {
+  if (typeof previousSpecHash === 'undefined' || previousSpecHash !== newSpecHash) {
     resetTableOptionConfig(config);
 
     config.tableOptionSpecHash = newSpecHash;
@@ -115,15 +115,13 @@ export function parseTableOption(specs, persistedTableOption) {
     const s = specs[i];
     const name = s.name;
 
-    if (s.valueType === ValueType.INT &&
-      typeof parsed[name] !== 'number') {
+    if (s.valueType === ValueType.INT && typeof parsed[name] !== 'number') {
       try {
         parsed[name] = parseInt(parsed[name]);
       } catch (error) {
         parsed[name] = s.defaultValue;
       }
-    } else if (s.valueType === ValueType.FLOAT &&
-      typeof parsed[name] !== 'number') {
+    } else if (s.valueType === ValueType.FLOAT && typeof parsed[name] !== 'number') {
       try {
         parsed[name] = parseFloat(parsed[name]);
       } catch (error) {

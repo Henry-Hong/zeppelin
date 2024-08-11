@@ -38,7 +38,7 @@
   border-bottom: 1px solid #e8e8e8;
 }
 
-input[class *=coltuiGrid] {
+input[class*='coltuiGrid'] {
   white-space: pre-wrap !important;
 }
 
@@ -48,12 +48,12 @@ input[class *=coltuiGrid] {
   resize: none;
 }
 
-.ui-grid-row, .ui-grid-cell {
+.ui-grid-row,
+.ui-grid-cell {
   height: auto !important;
 }
 
-.ui-grid-row div[role=row] {
-  display: flex ;
+.ui-grid-row div[role='row'] {
+  display: flex;
   align-content: stretch;
 }
-

@@ -17,8 +17,8 @@ angular.module('zeppelinWebApp').directive('dropdownInput', dropdownInputDirecti
 function dropdownInputDirective() {
   return {
     restrict: 'A',
-    link: function(scope, element) {
-      element.bind('click', function(event) {
+    link: function (scope, element) {
+      element.bind('click', function (event) {
         event.stopPropagation();
       });
     },

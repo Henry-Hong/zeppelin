@@ -47,7 +47,6 @@
   border-radius: 4px;
 }
 
-
 .input-rotate {
   width: 30px;
   height: 20px;
@@ -59,10 +58,12 @@
 }
 
 .html-result {
-  overflow: auto
+  overflow: auto;
 }
 
-.html-result ol, ul, dl {
+.html-result ol,
+ul,
+dl {
   padding-left: 20px;
 }
 
@@ -84,7 +85,9 @@
   vertical-align: bottom;
 }
 
-.html-result tr, th, td {
+.html-result tr,
+th,
+td {
   text-align: right;
   vertical-align: middle;
   padding: 0.5em 0.5em;
@@ -109,21 +112,21 @@
 }
 
 .html-result tbody tr:hover {
-  background: #f2f2f2
+  background: #f2f2f2;
 }
 
 /* D3 Graph Configuration */
 marker {
-  fill: #D3D3D3;
+  fill: #d3d3d3;
 }
 path.link {
   fill: none;
   stroke-width: 3px;
-  stroke: #D3D3D3;
+  stroke: #d3d3d3;
 }
 path.textpath {
- fill: none;
- stroke: none;
+  fill: none;
+  stroke: none;
 }
 
 text {
@@ -133,7 +136,7 @@ text {
 text.shadow {
   stroke: #fff;
   stroke-width: 3px;
-  stroke-opacity: .8;
+  stroke-opacity: 0.8;
 }
 text.nodeLabel {
   font-size: 1em;
@@ -142,16 +145,16 @@ text.nodeLabel {
 
 /* D3 Graph Configuration */
 marker {
-  fill: #D3D3D3;
+  fill: #d3d3d3;
 }
 path.link {
   fill: none;
   stroke-width: 3px;
-  stroke: #D3D3D3;
+  stroke: #d3d3d3;
 }
 path.textpath {
- fill: none;
- stroke: none;
+  fill: none;
+  stroke: none;
 }
 
 text {
@@ -161,7 +164,7 @@ text {
 text.shadow {
   stroke: #fff;
   stroke-width: 3px;
-  stroke-opacity: .8;
+  stroke-opacity: 0.8;
 }
 text.nodeLabel {
   font-size: 1em;

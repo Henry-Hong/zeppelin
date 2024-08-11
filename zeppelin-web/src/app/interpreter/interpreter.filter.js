@@ -15,7 +15,7 @@
 angular.module('zeppelinWebApp').filter('sortByKey', sortByKey);
 
 function sortByKey() {
-  return function(properties) {
+  return function (properties) {
     let sortedKeys = properties ? Object.keys(properties) : [];
     return sortedKeys.sort();
   };

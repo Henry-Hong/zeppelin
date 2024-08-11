@@ -24,7 +24,7 @@
 .heliumPackageList {
   min-height: 25px;
   margin-bottom: 15px;
-  border-bottom: 1px solid #EFEFEF;
+  border-bottom: 1px solid #efefef;
   padding-bottom: 13px;
 }
 
@@ -57,7 +57,7 @@
 
 .heliumPackageList .heliumPackageName .heliumType {
   font-size: 13px;
-  color: #AAAAAA;
+  color: #aaaaaa;
 }
 
 .spellInfo {
@@ -68,7 +68,7 @@
 
 .spellInfo .spellInfoDesc {
   font-size: 13px;
-  color: #AAAAAA;
+  color: #aaaaaa;
 }
 
 .spellInfo .spellInfoValue {
@@ -84,23 +84,23 @@
 }
 
 .spellConfigButton {
-  background-color: #FEFEFE;
+  background-color: #fefefe;
 }
 
 .heliumPackageList .heliumPackageDisabledArtifact {
-  color:gray;
+  color: gray;
 }
 
 .heliumPackageList .heliumPackageEnabledArtifact {
-  color:#444444;
+  color: #444444;
 }
 
 .heliumPackageList .heliumPackageEnabledArtifact span,
 .heliumPackageList .heliumPackageDisabledArtifact span {
-  margin-left:3px;
-  cursor:pointer;
-  text-decoration:
-  underline;color:#3071a9
+  margin-left: 3px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #3071a9;
 }
 
 .heliumPackageList .heliumPackageDescription {
@@ -118,7 +118,7 @@
 }
 
 .heliumBundleOrder p {
-  margin:0 0 5px 15px
+  margin: 0 0 5px 15px;
 }
 
 .sortable-row .as-sortable-item-handle {
@@ -132,11 +132,11 @@
 }
 
 .heliumBundleOrder .saveLink {
-  margin-left:10px;
-  margin-top:5px;
-  cursor:pointer;
-  text-decoration:
-  underline;color:#3071a9;
+  margin-left: 10px;
+  margin-top: 5px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #3071a9;
   display: inline-block;
 }
 
@@ -151,20 +151,21 @@
 }
 
 .heliumLearnMore {
-  margin-top:10px;
+  margin-top: 10px;
 }
 
 .heliumLearnMore a {
-  cursor:pointer;
-  margin-right:10px;
-  text-decoration:none;
+  cursor: pointer;
+  margin-right: 10px;
+  text-decoration: none;
 }
 
 .heliumRepoBtn {
   margin-right: 8px;
 }
 
-.heliumRepoBtn:hover, .heliumRepoBtn:focus {
+.heliumRepoBtn:hover,
+.heliumRepoBtn:focus {
   margin-right: 8px;
   outline: 0;
 }
@@ -172,7 +173,7 @@
 .heliumRepoBtnToggled {
   color: #333;
   background-color: #e6e6e6;
-  border-color:#adadad;
+  border-color: #adadad;
 }
 
 .localPkgInfo {
@@ -194,14 +195,13 @@
 
 .heliumConfigTable {
   margin-top: 15px;
-  vertical-align:middle;
+  vertical-align: middle;
   margin-bottom: 15px;
 }
 
 .heliumConfigValueText {
   vertical-align: top;
 }
-
 
 /* hide arrows when current page is on first & last */
 .hide-first-boundaries.pagination > .disabled > a,

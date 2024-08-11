@@ -22,7 +22,7 @@
 
 var webpackConfig = require('./webpack.config');
 
-module.exports = function(config) {
+module.exports = function (config) {
   'use strict';
 
   config.set({
@@ -100,9 +100,7 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to exclude
-    exclude: [
-      '.tmp/app/visualization/builtins/*.js'
-    ],
+    exclude: ['.tmp/app/visualization/builtins/*.js'],
 
     // web server port
     port: 9002,
@@ -115,7 +113,7 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: [ 'FirefoxHeadless' ],
+    browsers: ['FirefoxHeadless'],
 
     plugins: [
       'karma-coverage',
@@ -130,7 +128,7 @@ module.exports = function(config) {
 
     webpack: webpackConfig,
     webpackMiddleware: {
-      stats: 'errors-only'
+      stats: 'errors-only',
     },
 
     preprocessors: {
@@ -139,10 +137,7 @@ module.exports = function(config) {
 
     coverageReporter: {
       dir: 'reports/coverage',
-      reporters: [
-        { type: 'html' },
-        { type: 'text-summary' },
-      ]
+      reporters: [{ type: 'html' }, { type: 'text-summary' }],
     },
 
     // Continuous Integration mode

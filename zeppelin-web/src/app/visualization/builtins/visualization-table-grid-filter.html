@@ -12,16 +12,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class="ui-grid-filter-container"
-     ng-repeat="colFilter in col.filters"
-     ng-class="{'ui-grid-filter-cancel-button-hidden' : colFilter.disableCancelFilterButton === true }">
+<div
+  class="ui-grid-filter-container"
+  ng-repeat="colFilter in col.filters"
+  ng-class="{'ui-grid-filter-cancel-button-hidden' : colFilter.disableCancelFilterButton === true }"
+>
   <div ng-if="colFilter.type !== 'select'">
-    <input type="text" class="input-sm form-control"
-           style="font-size: 14px; font-weight: 500"
-
-           ng-model="colFilter.term"
-           ng-model-options="{ debounce : { 'default' : 300, 'blur' : 0 }}"
-           ng-attr-placeholder="{{colFilter.placeholder || ''}}"
-           aria-label="{{colFilter.ariaLabel || aria.defaultFilterLabel}}" />
+    <input
+      type="text"
+      class="input-sm form-control"
+      style="font-size: 14px; font-weight: 500"
+      ng-model="colFilter.term"
+      ng-model-options="{ debounce : { 'default' : 300, 'blur' : 0 }}"
+      ng-attr-placeholder="{{colFilter.placeholder || ''}}"
+      aria-label="{{colFilter.ariaLabel || aria.defaultFilterLabel}}"
+    />
   </div>
 </div>

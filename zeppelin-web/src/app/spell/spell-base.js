@@ -16,10 +16,7 @@
  */
 
 /* eslint-disable no-unused-vars */
-import {
-  DefaultDisplayType,
-  SpellResult,
-} from './spell-result';
+import { DefaultDisplayType, SpellResult } from './spell-result';
 /* eslint-enable no-unused-vars */
 
 export class SpellBase {

@@ -17,7 +17,7 @@
   padding: 10px 15px 15px 15px;
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .configurationHead .header {
@@ -47,11 +47,11 @@
 }
 
 .configuration table tr .configurationPropertyKey {
-  padding : 5px 5px 5px 5px;
+  padding: 5px 5px 5px 5px;
 }
 
 .configuration table tr .configurationPropertyValue {
-  padding : 5px 5px 5px 5px;
+  padding: 5px 5px 5px 5px;
   display: block;
   max-height: 100px;
   overflow-y: auto;
@@ -68,5 +68,5 @@
 }
 
 .hiding_overflow {
-  overflow:auto;
+  overflow: auto;
 }

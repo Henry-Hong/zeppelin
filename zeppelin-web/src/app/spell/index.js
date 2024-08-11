@@ -15,11 +15,6 @@
  * limitations under the License.
  */
 
-export {
-  DefaultDisplayType,
-  SpellResult,
-} from './spell-result';
+export { DefaultDisplayType, SpellResult } from './spell-result';
 
-export {
-  SpellBase,
-} from './spell-base';
+export { SpellBase } from './spell-base';

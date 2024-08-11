@@ -14,8 +14,16 @@
 
 angular.module('zeppelinWebApp').controller('HomeCtrl', HomeCtrl);
 
-function HomeCtrl($scope, noteListFactory, websocketMsgSrv, $rootScope, arrayOrderingSrv,
-                  ngToast, noteActionService, TRASH_FOLDER_ID) {
+function HomeCtrl(
+  $scope,
+  noteListFactory,
+  websocketMsgSrv,
+  $rootScope,
+  arrayOrderingSrv,
+  ngToast,
+  noteActionService,
+  TRASH_FOLDER_ID,
+) {
   'ngInject';
 
   ngToast.dismiss();
@@ -36,23 +44,23 @@ function HomeCtrl($scope, noteListFactory, websocketMsgSrv, $rootScope, arrayOrd
 
   $scope.isReloading = false;
   $scope.TRASH_FOLDER_ID = TRASH_FOLDER_ID;
-  $scope.query = {q: ''};
+  $scope.query = { q: '' };
 
-  $scope.initHome = function() {
+  $scope.initHome = function () {
     websocketMsgSrv.getHomeNote();
     vm.noteCustomHome = false;
   };
 
-  $scope.reloadNoteList = function() {
+  $scope.reloadNoteList = function () {
     websocketMsgSrv.reloadAllNotesFromRepo();
     $scope.isReloadingNotes = true;
   };
 
-  $scope.toggleFolderNode = function(node) {
+  $scope.toggleFolderNode = function (node) {
     node.hidden = !node.hidden;
   };
 
-  angular.element('#loginModal').on('hidden.bs.modal', function(e) {
+  angular.element('#loginModal').on('hidden.bs.modal', function (e) {
     $rootScope.$broadcast('initLoginValues');
   });
 
@@ -60,11 +68,11 @@ function HomeCtrl($scope, noteListFactory, websocketMsgSrv, $rootScope, arrayOrd
    ** $scope.$on functions below
    */
 
-  $scope.$on('setNoteMenu', function(event, notes) {
+  $scope.$on('setNoteMenu', function (event, notes) {
     $scope.isReloadingNotes = false;
   });
 
-  $scope.$on('setNoteContent', function(event, note) {
+  $scope.$on('setNoteContent', function (event, note) {
     if (vm.noteCustomHome) {
       return;
     }
@@ -86,55 +94,55 @@ function HomeCtrl($scope, noteListFactory, websocketMsgSrv, $rootScope, arrayOrd
     }
   });
 
-  $scope.loadMoreNotes = function() {
+  $scope.loadMoreNotes = function () {
     vm.numberOfNotesDisplayed += 10;
   };
 
-  $scope.renameNote = function(nodeId, nodePath) {
+  $scope.renameNote = function (nodeId, nodePath) {
     vm.noteActionService.renameNote(nodeId, nodePath);
   };
 
-  $scope.moveNoteToTrash = function(noteId) {
+  $scope.moveNoteToTrash = function (noteId) {
     vm.noteActionService.moveNoteToTrash(noteId, false);
   };
 
-  $scope.moveFolderToTrash = function(folderId) {
+  $scope.moveFolderToTrash = function (folderId) {
     vm.noteActionService.moveFolderToTrash(folderId);
   };
 
-  $scope.restoreNote = function(noteId) {
+  $scope.restoreNote = function (noteId) {
     websocketMsgSrv.restoreNote(noteId);
   };
 
-  $scope.restoreFolder = function(folderId) {
+  $scope.restoreFolder = function (folderId) {
     websocketMsgSrv.restoreFolder(folderId);
   };
 
-  $scope.restoreAll = function() {
+  $scope.restoreAll = function () {
     vm.noteActionService.restoreAll();
   };
 
-  $scope.renameFolder = function(node) {
+  $scope.renameFolder = function (node) {
     vm.noteActionService.renameFolder(node.id);
   };
 
-  $scope.removeNote = function(noteId) {
+  $scope.removeNote = function (noteId) {
     vm.noteActionService.removeNote(noteId, false);
   };
 
-  $scope.removeFolder = function(folderId) {
+  $scope.removeFolder = function (folderId) {
     vm.noteActionService.removeFolder(folderId);
   };
 
-  $scope.emptyTrash = function() {
+  $scope.emptyTrash = function () {
     vm.noteActionService.emptyTrash();
   };
 
-  $scope.clearAllParagraphOutput = function(noteId) {
+  $scope.clearAllParagraphOutput = function (noteId) {
     vm.noteActionService.clearAllParagraphOutput(noteId);
   };
 
-  $scope.isFilterNote = function(note) {
+  $scope.isFilterNote = function (note) {
     if (!$scope.query.q) {
       return true;
     }
@@ -146,15 +154,15 @@ function HomeCtrl($scope, noteListFactory, websocketMsgSrv, $rootScope, arrayOrd
     return false;
   };
 
-  $scope.getNoteName = function(note) {
+  $scope.getNoteName = function (note) {
     return arrayOrderingSrv.getNoteName(note);
   };
 
-  $scope.getNotePath = function(note) {
+  $scope.getNotePath = function (note) {
     return arrayOrderingSrv.getNotePath(note);
   };
 
-  $scope.noteComparator = function(note1, note2) {
+  $scope.noteComparator = function (note1, note2) {
     return arrayOrderingSrv.noteComparator(note1, note2);
   };
 }

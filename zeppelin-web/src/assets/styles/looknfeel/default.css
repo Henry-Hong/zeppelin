@@ -19,7 +19,7 @@ body {
 .noteAction {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   color: #2c3e50;
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .editor,

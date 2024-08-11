@@ -25,22 +25,21 @@ export default class NetworkTransformation extends Transformation {
       template: 'app/tabledata/network_settings.html',
       scope: {
         config: configObj,
-        isEmptyObject: function(obj) {
+        isEmptyObject: function (obj) {
           obj = obj || {};
           return angular.equals(obj, {});
         },
-        setNetworkLabel: function(label, value) {
+        setNetworkLabel: function (label, value) {
           configObj.properties[label].selected = value;
         },
-        saveConfig: function() {
+        saveConfig: function () {
           self.emitConfig(configObj);
         },
       },
     };
   }
 
-  setConfig(config) {
-  }
+  setConfig(config) {}
 
   transform(networkData) {
     return networkData;

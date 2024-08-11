@@ -25,15 +25,23 @@ limitations under the License.
         <label ng-if="isValid">Please enter a new name</label>
         <label ng-if="!isValid" class="text-danger">Please enter a valid name</label>
         <div class="form-group" ng-class="{'has-error': !isValid}">
-          <input type="text" class="form-control"
-                 ng-model="params.newName" ng-change="validate()"
-                 ng-enter="isValid && rename()" />
+          <input
+            type="text"
+            class="form-control"
+            ng-model="params.newName"
+            ng-change="validate()"
+            ng-enter="isValid && rename()"
+          />
         </div>
       </div>
       <div class="modal-footer">
         <div>
-          <button type="button" class="btn btn-default btn-primary"
-                  ng-click="rename()" ng-class="{'disabled': !isValid}">
+          <button
+            type="button"
+            class="btn btn-default btn-primary"
+            ng-click="rename()"
+            ng-class="{'disabled': !isValid}"
+          >
             Rename
           </button>
         </div>

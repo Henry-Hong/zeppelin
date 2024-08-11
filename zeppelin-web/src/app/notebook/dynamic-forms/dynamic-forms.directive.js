@@ -30,17 +30,17 @@ function DynamicFormDirective($templateRequest, $compile) {
       removeaction: '=removeaction',
     },
 
-    link: function(scope, element, attrs, controller) {
+    link: function (scope, element, attrs, controller) {
       scope.loadForm = this.loadForm;
       scope.toggleCheckbox = this.toggleCheckbox;
-      $templateRequest('app/notebook/dynamic-forms/dynamic-forms.directive.html').then(function(formsHtml) {
+      $templateRequest('app/notebook/dynamic-forms/dynamic-forms.directive.html').then(function (formsHtml) {
         let forms = angular.element(formsHtml);
         element.append(forms);
         $compile(forms)(scope);
       });
     },
 
-    loadForm: function(formulaire, params) {
+    loadForm: function (formulaire, params) {
       let value = formulaire.defaultValue;
       if (params[formulaire.name]) {
         value = params[formulaire.name];
@@ -49,7 +49,7 @@ function DynamicFormDirective($templateRequest, $compile) {
       params[formulaire.name] = value;
     },
 
-    toggleCheckbox: function(formulaire, option, params) {
+    toggleCheckbox: function (formulaire, option, params) {
       let idx = params[formulaire.name].indexOf(option.value);
       if (idx > -1) {
         params[formulaire.name].splice(idx, 1);
@@ -57,6 +57,5 @@ function DynamicFormDirective($templateRequest, $compile) {
         params[formulaire.name].push(option.value);
       }
     },
-
   };
 }

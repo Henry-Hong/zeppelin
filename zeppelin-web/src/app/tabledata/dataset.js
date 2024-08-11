@@ -33,4 +33,4 @@ const DatasetType = Object.freeze({
   TABLE: 'TABLE',
 });
 
-export {Dataset, DatasetType};
+export { Dataset, DatasetType };

@@ -17,11 +17,11 @@ angular.module('zeppelinWebApp').service('loaderSrv', LoaderService);
 function LoaderService() {
   'ngInject';
 
-  this.showLoader = function() {
+  this.showLoader = function () {
     angular.element('#pre-loader').fadeIn();
   };
 
-  this.hideLoader = function() {
+  this.hideLoader = function () {
     angular.element('#pre-loader').fadeOut();
   };
 }

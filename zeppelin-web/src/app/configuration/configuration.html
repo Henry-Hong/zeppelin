@@ -15,14 +15,13 @@ limitations under the License.
   <div class="header">
     <div class="row">
       <div class="col-md-12">
-        <h3 class="new_h3">
-          Configurations
-        </h3>
+        <h3 class="new_h3">Configurations</h3>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        Shows current configurations for Zeppelin Server.<br/>
+        Shows current configurations for Zeppelin Server.
+        <br />
         Note: For security reasons, some key/value pairs including passwords would not be shown.
       </div>
     </div>
@@ -36,17 +35,15 @@ limitations under the License.
         <table class="table table-striped">
           <thead>
             <tr>
-              <th style="width:30%">name</th>
+              <th style="width: 30%">name</th>
               <th>value</th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="key in configurations | sortByKey" >
+            <tr ng-repeat="key in configurations | sortByKey">
               <td>{{key}}</td>
               <td>
-                <div class="hiding_overflow">
-                  {{configurations[key]}}
-                </div>
+                <div class="hiding_overflow">{{configurations[key]}}</div>
               </td>
             </tr>
           </tbody>

@@ -15,16 +15,14 @@
  * limitations under the License.
  */
 
-import './note-create.css'
-
-.dynamicForm {
+import './note-create.css' .dynamicForm {
   margin-right: 20px;
   margin-left: 20px;
 }
 
 .dynamicForm.form-horizontal .form-group {
   margin-right: 0;
-  margin-left:  0;
+  margin-left: 0;
 }
 
 .dynamicForm.form-horizontal .form-group label {

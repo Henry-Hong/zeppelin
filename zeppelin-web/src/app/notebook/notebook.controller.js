@@ -14,14 +14,27 @@
 
 import moment from 'moment';
 
-import {isParagraphRunning} from './paragraph/paragraph.status';
+import { isParagraphRunning } from './paragraph/paragraph.status';
 
 angular.module('zeppelinWebApp').controller('NotebookCtrl', NotebookCtrl);
 
-function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
-                      $http, websocketMsgSrv, baseUrlSrv, $timeout, saveAsService,
-                      ngToast, noteActionService, noteVarShareService, TRASH_FOLDER_ID,
-                      heliumService) {
+function NotebookCtrl(
+  $scope,
+  $route,
+  $routeParams,
+  $location,
+  $rootScope,
+  $http,
+  websocketMsgSrv,
+  baseUrlSrv,
+  $timeout,
+  saveAsService,
+  ngToast,
+  noteActionService,
+  noteVarShareService,
+  TRASH_FOLDER_ID,
+  heliumService,
+) {
   'ngInject';
 
   ngToast.dismiss();
@@ -40,24 +53,24 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
   $scope.looknfeelOption = ['default', 'simple', 'report'];
   $scope.noteFormTitle = null;
   $scope.cronOption = [
-    {name: 'None', value: undefined},
-    {name: '1m', value: '0 0/1 * * * ?'},
-    {name: '5m', value: '0 0/5 * * * ?'},
-    {name: '1h', value: '0 0 0/1 * * ?'},
-    {name: '3h', value: '0 0 0/3 * * ?'},
-    {name: '6h', value: '0 0 0/6 * * ?'},
-    {name: '12h', value: '0 0 0/12 * * ?'},
-    {name: '1d', value: '0 0 0 * * ?'},
+    { name: 'None', value: undefined },
+    { name: '1m', value: '0 0/1 * * * ?' },
+    { name: '5m', value: '0 0/5 * * * ?' },
+    { name: '1h', value: '0 0 0/1 * * ?' },
+    { name: '3h', value: '0 0 0/3 * * ?' },
+    { name: '6h', value: '0 0 0/6 * * ?' },
+    { name: '12h', value: '0 0 0/12 * * ?' },
+    { name: '1d', value: '0 0 0 * * ?' },
   ];
 
-  $scope.formatRevisionDate = function(date) {
+  $scope.formatRevisionDate = function (date) {
     return moment.unix(date).format('MMMM Do YYYY, h:mm a');
   };
 
   // reorder this array without Head revision, put Head revision in the first
-  $scope.revisionSort = function(array) {
+  $scope.revisionSort = function (array) {
     let orderArr = array.slice(1).sort((a, b) => {
-      return b.time-a.time;
+      return b.time - a.time;
     });
     orderArr.unshift(array[0]);
     return orderArr;
@@ -70,8 +83,8 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
   $scope.paragraphWarningDialog = {};
 
   let connectedOnce = false;
-  let isRevisionPath = function(path) {
-    let pattern = new RegExp('^.*\/notebook\/[a-zA-Z0-9_]*\/revision\/[a-zA-Z0-9_]*');
+  let isRevisionPath = function (path) {
+    let pattern = new RegExp('^.*/notebook/[a-zA-Z0-9_]*/revision/[a-zA-Z0-9_]*');
     return pattern.test(path);
   };
 
@@ -94,31 +107,35 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
   };
   let currentSearchParagraph = 0;
 
-  $scope.$watch('note', function(value) {
-    let title;
-    if (value) {
-      title = value.name.substr(value.name.lastIndexOf('/') + 1, value.name.length);
-      title += ' - Zeppelin';
-    } else {
-      title = 'Zeppelin';
-    }
-    $rootScope.pageTitle = title;
-  }, true);
+  $scope.$watch(
+    'note',
+    function (value) {
+      let title;
+      if (value) {
+        title = value.name.substr(value.name.lastIndexOf('/') + 1, value.name.length);
+        title += ' - Zeppelin';
+      } else {
+        title = 'Zeppelin';
+      }
+      $rootScope.pageTitle = title;
+    },
+    true,
+  );
 
-  $scope.$on('setConnectedStatus', function(event, param) {
+  $scope.$on('setConnectedStatus', function (event, param) {
     if (connectedOnce && param) {
       initNotebook();
     }
     connectedOnce = true;
   });
 
-  $scope.addEvent = function(config) {
-    let removeEventByID = function(id) {
+  $scope.addEvent = function (config) {
+    let removeEventByID = function (id) {
       let events = jQuery._data(config.element, 'events')[config.eventType];
       if (!events) {
         return;
       }
-      for (let i=0; i < events.length; i++) {
+      for (let i = 0; i < events.length; i++) {
         if (events[i].data && events[i].data.eventID === id) {
           events.splice(i, 1);
           i--;
@@ -127,13 +144,16 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     };
 
     removeEventByID(config.eventID);
-    angular.element(config.element).bind(config.eventType, {eventID: config.eventID}, config.handler);
-    angular.element(config.onDestroyElement).scope().$on('$destroy', () => {
-      removeEventByID(config.eventID);
-    });
+    angular.element(config.element).bind(config.eventType, { eventID: config.eventID }, config.handler);
+    angular
+      .element(config.onDestroyElement)
+      .scope()
+      .$on('$destroy', () => {
+        removeEventByID(config.eventID);
+      });
   };
 
-  $scope.getCronOptionNameFromValue = function(value) {
+  $scope.getCronOptionNameFromValue = function (value) {
     if (!value) {
       return '';
     }
@@ -146,12 +166,15 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     return value;
   };
 
-  $scope.blockAnonUsers = function() {
+  $scope.blockAnonUsers = function () {
     let zeppelinVersion = $rootScope.zeppelinVersion;
     let url = 'https://zeppelin.apache.org/docs/' + zeppelinVersion + '/security/notebook_authorization.html';
-    let content = 'Only authenticated user can set the permission.' +
+    let content =
+      'Only authenticated user can set the permission.' +
       '<a data-toggle="tooltip" data-placement="top" title="Learn more" target="_blank" ' +
-      'rel="noopener noreferrer" href=' + url + '>' +
+      'rel="noopener noreferrer" href=' +
+      url +
+      '>' +
       '<i class="icon-question" />' +
       '</a>';
     BootstrapDialog.show({
@@ -160,17 +183,19 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
       closeByKeyboard: false,
       title: 'No permission',
       message: content,
-      buttons: [{
-        label: 'Close',
-        action: function(dialog) {
-          dialog.close();
+      buttons: [
+        {
+          label: 'Close',
+          action: function (dialog) {
+            dialog.close();
+          },
         },
-      }],
+      ],
     });
   };
 
   /** Init the new controller */
-  const initNotebook = function() {
+  const initNotebook = function () {
     noteVarShareService.clear();
     if ($routeParams.revisionId) {
       websocketMsgSrv.getNoteByRevision($routeParams.noteId, $routeParams.revisionId);
@@ -180,25 +205,22 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     websocketMsgSrv.listRevisionHistory($routeParams.noteId);
     let currentRoute = $route.current;
     if (currentRoute) {
-      setTimeout(
-        function() {
-          let routeParams = currentRoute.params;
-          let $id = angular.element('#' + routeParams.paragraph + '_container');
+      setTimeout(function () {
+        let routeParams = currentRoute.params;
+        let $id = angular.element('#' + routeParams.paragraph + '_container');
 
-          if ($id.length > 0) {
-            // adjust for navbar
-            let top = $id.offset().top - 103;
-            angular.element('html, body').scrollTo({top: top, left: 0});
-          }
-        },
-        1000
-      );
+        if ($id.length > 0) {
+          // adjust for navbar
+          let top = $id.offset().top - 103;
+          angular.element('html, body').scrollTo({ top: top, left: 0 });
+        }
+      }, 1000);
     }
   };
 
   initNotebook();
 
-  $scope.focusParagraphOnClick = function(clickEvent) {
+  $scope.focusParagraphOnClick = function (clickEvent) {
     if (!$scope.note) {
       return;
     }
@@ -214,14 +236,14 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
   // register mouseevent handler for focus paragraph
   document.addEventListener('click', $scope.focusParagraphOnClick);
 
-  let keyboardShortcut = function(keyEvent) {
+  let keyboardShortcut = function (keyEvent) {
     // handle keyevent
     if (!$scope.viewOnly && !$scope.revisionView) {
       $scope.$broadcast('keyEvent', keyEvent);
     }
   };
 
-  $scope.keydownEvent = function(keyEvent) {
+  $scope.keydownEvent = function (keyEvent) {
     if ((keyEvent.ctrlKey || keyEvent.metaKey) && String.fromCharCode(keyEvent.which).toLowerCase() === 's') {
       keyEvent.preventDefault();
     }
@@ -232,21 +254,21 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
   // register mouseevent handler for focus paragraph
   document.addEventListener('keydown', $scope.keydownEvent);
 
-  $scope.paragraphOnDoubleClick = function(paragraphId) {
+  $scope.paragraphOnDoubleClick = function (paragraphId) {
     $scope.$broadcast('doubleClickParagraph', paragraphId);
   };
 
   // Move the note to trash and go back to the main page
-  $scope.moveNoteToTrash = function(noteId) {
+  $scope.moveNoteToTrash = function (noteId) {
     noteActionService.moveNoteToTrash(noteId, true);
   };
 
   // Remove the note permanently if it's in the trash
-  $scope.removeNote = function(noteId) {
+  $scope.removeNote = function (noteId) {
     noteActionService.removeNote(noteId, true);
   };
 
-  $scope.isTrash = function(note) {
+  $scope.isTrash = function (note) {
     return note && note.path ? note.path.split('/')[1] === TRASH_FOLDER_ID : false;
   };
 
@@ -254,18 +276,18 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
   let limit = 0;
 
   websocketMsgSrv.listConfigurations();
-  $scope.$on('configurationsInfo', function(scope, event) {
+  $scope.$on('configurationsInfo', function (scope, event) {
     limit = event.configurations['zeppelin.websocket.max.text.message.size'];
   });
 
-  $scope.exportNote = function() {
+  $scope.exportNote = function () {
     let jsonContent = JSON.stringify($scope.note, null, 2);
     if (jsonContent.length > limit) {
       BootstrapDialog.confirm({
         closable: true,
         title: 'Note size exceeds importable limit (' + limit + ')',
         message: 'Do you still want to export this note?',
-        callback: function(result) {
+        callback: function (result) {
           if (result) {
             saveAsService.saveAs(jsonContent, $scope.note.name + '_' + $scope.note.id, 'zpln');
           }
@@ -277,22 +299,22 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
   };
 
   // Export nbformat
-  $scope.exportNbformat = function() {
+  $scope.exportNbformat = function () {
     websocketMsgSrv.convertNote($scope.note.id, $scope.note.name);
   };
 
   // Export nbformat
-  $scope.reloadNote = function() {
+  $scope.reloadNote = function () {
     websocketMsgSrv.reloadNote($scope.note.id);
   };
 
   // Clone note
-  $scope.cloneNote = function(noteId) {
+  $scope.cloneNote = function (noteId) {
     BootstrapDialog.confirm({
       closable: true,
       title: '',
       message: 'Do you want to clone this note?',
-      callback: function(result) {
+      callback: function (result) {
         if (result) {
           websocketMsgSrv.cloneNote(noteId);
           $location.path('/');
@@ -302,12 +324,12 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
   };
 
   // checkpoint/commit notebook
-  $scope.checkpointNote = function(commitMessage) {
+  $scope.checkpointNote = function (commitMessage) {
     BootstrapDialog.confirm({
       closable: true,
       title: '',
       message: 'Commit note to current repository?',
-      callback: function(result) {
+      callback: function (result) {
         if (result) {
           websocketMsgSrv.checkpointNote($routeParams.noteId, commitMessage);
         }
@@ -317,12 +339,12 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
   };
 
   // set notebook head to given revision
-  $scope.setNoteRevision = function() {
+  $scope.setNoteRevision = function () {
     BootstrapDialog.confirm({
       closable: true,
       title: '',
       message: 'Set notebook head to current revision?',
-      callback: function(result) {
+      callback: function (result) {
         if (result) {
           websocketMsgSrv.setNoteRevision($routeParams.noteId, $routeParams.revisionId);
         }
@@ -330,7 +352,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     });
   };
 
-  $scope.preVisibleRevisionsComparator = function() {
+  $scope.preVisibleRevisionsComparator = function () {
     $scope.mergeNoteRevisionsForCompare = null;
     $scope.firstNoteRevisionForCompare = null;
     $scope.secondNoteRevisionForCompare = null;
@@ -339,7 +361,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $scope.$apply();
   };
 
-  $scope.$on('listRevisionHistory', function(event, data) {
+  $scope.$on('listRevisionHistory', function (event, data) {
     console.debug('received list of revisions %o', data);
     $scope.noteRevisions = data.revisionList;
     if ($scope.noteRevisions) {
@@ -351,8 +373,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
         });
       }
       if ($routeParams.revisionId) {
-        let index = _.findIndex($scope.noteRevisions,
-          {'id': $routeParams.revisionId});
+        let index = _.findIndex($scope.noteRevisions, { id: $routeParams.revisionId });
         if (index > -1) {
           $scope.currentRevision = $scope.noteRevisions[index].message;
         }
@@ -360,7 +381,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   });
 
-  $scope.$on('noteRevision', function(event, data) {
+  $scope.$on('noteRevision', function (event, data) {
     console.log('received note revision %o', data);
     if (data.note) {
       $scope.note = data.note;
@@ -370,14 +391,14 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   });
 
-  $scope.$on('setNoteRevisionResult', function(event, data) {
+  $scope.$on('setNoteRevisionResult', function (event, data) {
     console.log('received set note revision result %o', data);
     if (data.status) {
       $location.path('/notebook/' + $routeParams.noteId);
     }
   });
 
-  $scope.visitRevision = function(revision) {
+  $scope.visitRevision = function (revision) {
     if (revision.id) {
       if (revision.id === 'Head') {
         $location.path('/notebook/' + $routeParams.noteId);
@@ -385,19 +406,20 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
         $location.path('/notebook/' + $routeParams.noteId + '/revision/' + revision.id);
       }
     } else {
-      ngToast.danger({content: 'There is a problem with this Revision',
+      ngToast.danger({
+        content: 'There is a problem with this Revision',
         verticalPosition: 'top',
         dismissOnTimeout: false,
       });
     }
   };
 
-  $scope.runAllParagraphs = function(noteId) {
+  $scope.runAllParagraphs = function (noteId) {
     BootstrapDialog.confirm({
       closable: true,
       title: '',
       message: 'Run all paragraphs?',
-      callback: function(result) {
+      callback: function (result) {
         if (result) {
           const paragraphs = $scope.note.paragraphs.map((p) => {
             return {
@@ -414,9 +436,9 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     });
   };
 
-  $scope.saveNote = function() {
+  $scope.saveNote = function () {
     if ($scope.note && $scope.note.paragraphs) {
-      _.forEach($scope.note.paragraphs, function(par) {
+      _.forEach($scope.note.paragraphs, function (par) {
         angular
           .element('#' + par.id + '_paragraphColumn_main')
           .scope()
@@ -426,11 +448,11 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   };
 
-  $scope.clearAllParagraphOutput = function(noteId) {
+  $scope.clearAllParagraphOutput = function (noteId) {
     noteActionService.clearAllParagraphOutput(noteId);
   };
 
-  $scope.toggleAllEditor = function() {
+  $scope.toggleAllEditor = function () {
     if ($scope.editorToggled) {
       $scope.$broadcast('openEditor');
     } else {
@@ -439,15 +461,15 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $scope.editorToggled = !$scope.editorToggled;
   };
 
-  $scope.showAllEditor = function() {
+  $scope.showAllEditor = function () {
     $scope.$broadcast('openEditor');
   };
 
-  $scope.hideAllEditor = function() {
+  $scope.hideAllEditor = function () {
     $scope.$broadcast('closeEditor');
   };
 
-  $scope.toggleAllTable = function() {
+  $scope.toggleAllTable = function () {
     if ($scope.tableToggled) {
       $scope.$broadcast('openTable');
     } else {
@@ -456,18 +478,18 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $scope.tableToggled = !$scope.tableToggled;
   };
 
-  $scope.showAllTable = function() {
+  $scope.showAllTable = function () {
     $scope.$broadcast('openTable');
   };
 
-  $scope.hideAllTable = function() {
+  $scope.hideAllTable = function () {
     $scope.$broadcast('closeTable');
   };
 
   /**
    * @returns {boolean} true if one more paragraphs are running. otherwise return false.
    */
-  $scope.isNoteRunning = function() {
+  $scope.isNoteRunning = function () {
     if (!$scope.note) {
       return false;
     }
@@ -481,23 +503,23 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     return false;
   };
 
-  $scope.killSaveTimer = function() {
+  $scope.killSaveTimer = function () {
     if ($scope.saveTimer) {
       $timeout.cancel($scope.saveTimer);
       $scope.saveTimer = null;
     }
   };
 
-  $scope.startSaveTimer = function() {
+  $scope.startSaveTimer = function () {
     $scope.killSaveTimer();
     $scope.isNoteDirty = true;
     // console.log('startSaveTimer called ' + $scope.note.id);
-    $scope.saveTimer = $timeout(function() {
+    $scope.saveTimer = $timeout(function () {
       $scope.saveNote();
     }, 10000);
   };
 
-  $scope.setLookAndFeel = function(looknfeel) {
+  $scope.setLookAndFeel = function (looknfeel) {
     $scope.note.config.looknfeel = looknfeel;
     if ($scope.revisionView === true) {
       $rootScope.$broadcast('setLookAndFeel', $scope.note.config.looknfeel);
@@ -506,13 +528,13 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   };
 
-  $scope.setNoteFormTitle = function(noteFormTitle) {
+  $scope.setNoteFormTitle = function (noteFormTitle) {
     $scope.note.config.noteFormTitle = noteFormTitle;
     $scope.setConfig();
   };
 
   /** Set cron expression for this note **/
-  $scope.setCronScheduler = function(cronExpr) {
+  $scope.setCronScheduler = function (cronExpr) {
     if (cronExpr) {
       if (!$scope.note.config.cronExecutingUser) {
         $scope.note.config.cronExecutingUser = $rootScope.ticket.principal;
@@ -529,7 +551,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
   };
 
   /** Update note config **/
-  $scope.setConfig = function(config) {
+  $scope.setConfig = function (config) {
     if (config) {
       $scope.note.config = config;
     }
@@ -537,7 +559,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
   };
 
   /** Update the note name */
-  $scope.updateNoteName = function(newName) {
+  $scope.updateNoteName = function (newName) {
     const trimmedNewName = newName.trim();
     if (trimmedNewName.length > 0 && $scope.note.name !== trimmedNewName) {
       $scope.note.name = trimmedNewName;
@@ -545,7 +567,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   };
 
-  const initializeLookAndFeel = function() {
+  const initializeLookAndFeel = function () {
     if (!$scope.note.config.looknfeel) {
       $scope.note.config.looknfeel = 'default';
     } else {
@@ -558,7 +580,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $rootScope.$broadcast('setLookAndFeel', $scope.note.config.looknfeel);
   };
 
-  let cleanParagraphExcept = function(paragraphId, note) {
+  let cleanParagraphExcept = function (paragraphId, note) {
     let noteCopy = {};
     noteCopy.id = note.id;
     noteCopy.name = note.name;
@@ -579,7 +601,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     return noteCopy;
   };
 
-  let addPara = function(paragraph, index) {
+  let addPara = function (paragraph, index) {
     $scope.note.paragraphs.splice(index, 0, paragraph);
     $scope.note.paragraphs.map((para) => {
       if (para.id === paragraph.id) {
@@ -593,9 +615,9 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     });
   };
 
-  let removePara = function(paragraphId) {
+  let removePara = function (paragraphId) {
     let removeIdx;
-    _.each($scope.note.paragraphs, function(para, idx) {
+    _.each($scope.note.paragraphs, function (para, idx) {
       if (para.id === paragraphId) {
         removeIdx = idx;
       }
@@ -603,21 +625,21 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     return $scope.note.paragraphs.splice(removeIdx, 1);
   };
 
-  $scope.$on('addParagraph', function(event, paragraph, index) {
+  $scope.$on('addParagraph', function (event, paragraph, index) {
     if ($scope.paragraphUrl || $scope.revisionView === true) {
       return;
     }
     addPara(paragraph, index);
   });
 
-  $scope.$on('removeParagraph', function(event, paragraphId) {
+  $scope.$on('removeParagraph', function (event, paragraphId) {
     if ($scope.paragraphUrl || $scope.revisionView === true) {
       return;
     }
     removePara(paragraphId);
   });
 
-  $scope.$on('moveParagraph', function(event, paragraphId, newIdx) {
+  $scope.$on('moveParagraph', function (event, paragraphId, newIdx) {
     if ($scope.revisionView === true) {
       return;
     }
@@ -627,7 +649,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   });
 
-  $scope.$on('updateNote', function(event, name, config, info) {
+  $scope.$on('updateNote', function (event, name, config, info) {
     /** update Note name */
     if (name !== $scope.note.name) {
       console.log('change note name to : %o', $scope.note.name);
@@ -638,11 +660,11 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     initializeLookAndFeel();
   });
 
-  let getInterpreterBindings = function() {
+  let getInterpreterBindings = function () {
     websocketMsgSrv.getInterpreterBindings($scope.note.id);
   };
 
-  $scope.$on('interpreterBindings', function(event, data) {
+  $scope.$on('interpreterBindings', function (event, data) {
     $scope.interpreterBindings = data.interpreterBindings;
     $scope.interpreterBindingsOrig = angular.copy($scope.interpreterBindings); // to check dirty
 
@@ -651,7 +673,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     let setting;
 
     for (key in $scope.interpreterBindings) {
-      if($scope.interpreterBindings.hasOwnProperty(key)) {
+      if ($scope.interpreterBindings.hasOwnProperty(key)) {
         setting = $scope.interpreterBindings[key];
         if (setting.selected) {
           selected = true;
@@ -677,33 +699,33 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
   });
 
   $scope.interpreterSelectionListeners = {
-    accept: function(sourceItemHandleScope, destSortableScope) {
+    accept: function (sourceItemHandleScope, destSortableScope) {
       return true;
     },
-    itemMoved: function(event) {},
-    orderChanged: function(event) {},
+    itemMoved: function (event) {},
+    orderChanged: function (event) {},
   };
 
-  $scope.closeAdditionalBoards = function() {
+  $scope.closeAdditionalBoards = function () {
     $scope.closeSetting();
     $scope.closePermissions();
     $scope.closeRevisionsComparator();
   };
 
-  $scope.openSetting = function() {
+  $scope.openSetting = function () {
     $scope.showSetting = true;
     getInterpreterBindings();
   };
 
-  $scope.closeSetting = function() {
+  $scope.closeSetting = function () {
     if (isSettingDirty()) {
       BootstrapDialog.confirm({
         closable: true,
         title: '',
         message: 'Interpreter setting changes will be discarded.',
-        callback: function(result) {
+        callback: function (result) {
           if (result) {
-            $scope.$apply(function() {
+            $scope.$apply(function () {
               $scope.showSetting = false;
             });
           }
@@ -714,7 +736,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   };
 
-  $scope.saveSetting = function() {
+  $scope.saveSetting = function () {
     let selectedSettingIds = [];
     for (let no in $scope.interpreterBindings) {
       if ($scope.interpreterBindings.hasOwnProperty(no)) {
@@ -727,7 +749,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     websocketMsgSrv.saveInterpreterBindings($scope.note.id, selectedSettingIds);
     console.log('Interpreter bindings %o saved', selectedSettingIds);
 
-    _.forEach($scope.note.paragraphs, function(n, key) {
+    _.forEach($scope.note.paragraphs, function (n, key) {
       let regExp = /^\s*%/g;
       if (n.text && !regExp.exec(n.text)) {
         $scope.$broadcast('saveInterpreterBindings', n.id);
@@ -737,123 +759,124 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $scope.showSetting = false;
   };
 
-  $scope.toggleSetting = function() {
+  $scope.toggleSetting = function () {
     if ($scope.showSetting) {
       $scope.closeSetting();
     } else {
       $scope.closeAdditionalBoards();
       $scope.openSetting();
-      angular.element('html, body').animate({scrollTop: 0}, 'slow');
+      angular.element('html, body').animate({ scrollTop: 0 }, 'slow');
     }
   };
 
-  $scope.openRevisionsComparator = function() {
+  $scope.openRevisionsComparator = function () {
     $scope.showRevisionsComparator = true;
   };
 
-  $scope.closeRevisionsComparator = function() {
+  $scope.closeRevisionsComparator = function () {
     $scope.showRevisionsComparator = false;
   };
 
-  $scope.toggleRevisionsComparator = function() {
+  $scope.toggleRevisionsComparator = function () {
     if ($scope.showRevisionsComparator) {
       $scope.closeRevisionsComparator();
     } else {
       $scope.closeAdditionalBoards();
       $scope.openRevisionsComparator();
-      angular.element('html, body').animate({scrollTop: 0}, 'slow');
+      angular.element('html, body').animate({ scrollTop: 0 }, 'slow');
     }
   };
 
-  let getPermissions = function(callback) {
-    $http.get(baseUrlSrv.getRestApiBase() + '/notebook/' + $scope.note.id + '/permissions')
-    .success(function(data, status, headers, config) {
-      $scope.permissions = data.body;
-      $scope.permissionsOrig = angular.copy($scope.permissions); // to check dirty
+  let getPermissions = function (callback) {
+    $http
+      .get(baseUrlSrv.getRestApiBase() + '/notebook/' + $scope.note.id + '/permissions')
+      .success(function (data, status, headers, config) {
+        $scope.permissions = data.body;
+        $scope.permissionsOrig = angular.copy($scope.permissions); // to check dirty
 
-      let selectJson = {
-        tokenSeparators: [',', ' '],
-        ajax: {
-          url: function(params) {
-            if (!params.term) {
-              return false;
-            }
-            return baseUrlSrv.getRestApiBase() + '/security/userlist/' + params.term;
-          },
-          delay: 250,
-          processResults: function(data, params) {
-            let results = [];
+        let selectJson = {
+          tokenSeparators: [',', ' '],
+          ajax: {
+            url: function (params) {
+              if (!params.term) {
+                return false;
+              }
+              return baseUrlSrv.getRestApiBase() + '/security/userlist/' + params.term;
+            },
+            delay: 250,
+            processResults: function (data, params) {
+              let results = [];
 
-            if (data.body.users.length !== 0) {
-              let users = [];
-              for (let len = 0; len < data.body.users.length; len++) {
-                users.push({
-                  'id': data.body.users[len],
-                  'text': data.body.users[len],
+              if (data.body.users.length !== 0) {
+                let users = [];
+                for (let len = 0; len < data.body.users.length; len++) {
+                  users.push({
+                    id: data.body.users[len],
+                    text: data.body.users[len],
+                  });
+                }
+                results.push({
+                  text: 'Users :',
+                  children: users,
                 });
               }
-              results.push({
-                'text': 'Users :',
-                'children': users,
-              });
-            }
-            if (data.body.roles.length !== 0) {
-              let roles = [];
-              for (let len = 0; len < data.body.roles.length; len++) {
-                roles.push({
-                  'id': data.body.roles[len],
-                  'text': data.body.roles[len],
+              if (data.body.roles.length !== 0) {
+                let roles = [];
+                for (let len = 0; len < data.body.roles.length; len++) {
+                  roles.push({
+                    id: data.body.roles[len],
+                    text: data.body.roles[len],
+                  });
+                }
+                results.push({
+                  text: 'Roles :',
+                  children: roles,
                 });
               }
-              results.push({
-                'text': 'Roles :',
-                'children': roles,
-              });
-            }
-            return {
-              results: results,
-              pagination: {
-                more: false,
-              },
-            };
+              return {
+                results: results,
+                pagination: {
+                  more: false,
+                },
+              };
+            },
+            cache: false,
           },
-          cache: false,
-        },
-        width: ' ',
-        tags: true,
-        minimumInputLength: 3,
-      };
+          width: ' ',
+          tags: true,
+          minimumInputLength: 3,
+        };
 
-      $scope.setMyPermissions();
-      angular.element('#selectOwners').select2(selectJson);
-      angular.element('#selectReaders').select2(selectJson);
-      angular.element('#selectRunners').select2(selectJson);
-      angular.element('#selectWriters').select2(selectJson);
-      if (callback) {
-        callback();
-      }
-    })
-    .error(function(data, status, headers, config) {
-      if (status !== 0) {
-        console.log('Error %o %o', status, data.message);
-      }
-    });
+        $scope.setMyPermissions();
+        angular.element('#selectOwners').select2(selectJson);
+        angular.element('#selectReaders').select2(selectJson);
+        angular.element('#selectRunners').select2(selectJson);
+        angular.element('#selectWriters').select2(selectJson);
+        if (callback) {
+          callback();
+        }
+      })
+      .error(function (data, status, headers, config) {
+        if (status !== 0) {
+          console.log('Error %o %o', status, data.message);
+        }
+      });
   };
 
-  $scope.openPermissions = function() {
+  $scope.openPermissions = function () {
     $scope.showPermissions = true;
     getPermissions();
   };
 
-  $scope.closePermissions = function() {
+  $scope.closePermissions = function () {
     if (isPermissionsDirty()) {
       BootstrapDialog.confirm({
         closable: true,
         title: '',
         message: 'Changes will be discarded.',
-        callback: function(result) {
+        callback: function (result) {
           if (result) {
-            $scope.$apply(function() {
+            $scope.$apply(function () {
               $scope.showPermissions = false;
             });
           }
@@ -872,11 +895,11 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     angular.element('.permissionsForm select').find('option:not([is-select2="false"])').remove();
   }
 
-  $scope.hasMatches = function() {
+  $scope.hasMatches = function () {
     return $scope.search.occurrencesCount > 0;
   };
 
-  const markAllOccurrences = function() {
+  const markAllOccurrences = function () {
     $scope.search.occurrencesCount = 0;
     $scope.search.occurrencesHidden = false;
     currentSearchParagraph = 0;
@@ -884,26 +907,26 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $scope.search.currentOccurrence = $scope.search.occurrencesCount > 0 ? 1 : 0;
   };
 
-  $scope.markAllOccurrencesAndHighlightFirst = function() {
+  $scope.markAllOccurrencesAndHighlightFirst = function () {
     $scope.search.needHighlightFirst = true;
     markAllOccurrences();
   };
 
-  const increaseCurrentOccurence = function() {
+  const increaseCurrentOccurence = function () {
     ++$scope.search.currentOccurrence;
     if ($scope.search.currentOccurrence > $scope.search.occurrencesCount) {
       $scope.search.currentOccurrence = 1;
     }
   };
 
-  const decreaseCurrentOccurence = function() {
+  const decreaseCurrentOccurence = function () {
     --$scope.search.currentOccurrence;
     if ($scope.search.currentOccurrence === 0) {
       $scope.search.currentOccurrence = $scope.search.occurrencesCount;
     }
   };
 
-  const sendNextOccurrenceMessage = function() {
+  const sendNextOccurrenceMessage = function () {
     if ($scope.search.occurrencesCount === 0) {
       markAllOccurrences();
       if ($scope.search.occurrencesCount === 0) {
@@ -916,7 +939,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $scope.$broadcast('nextOccurrence', $scope.note.paragraphs[currentSearchParagraph].id);
   };
 
-  const sendPrevOccurrenceMessage = function() {
+  const sendPrevOccurrenceMessage = function () {
     if ($scope.search.occurrencesCount === 0) {
       markAllOccurrences();
       if ($scope.search.occurrencesCount === 0) {
@@ -930,21 +953,21 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $scope.$broadcast('prevOccurrence', $scope.note.paragraphs[currentSearchParagraph].id);
   };
 
-  const increaseCurrentSearchParagraph = function() {
+  const increaseCurrentSearchParagraph = function () {
     ++currentSearchParagraph;
     if (currentSearchParagraph >= $scope.note.paragraphs.length) {
       currentSearchParagraph = 0;
     }
   };
 
-  const decreaseCurrentSearchParagraph = function() {
+  const decreaseCurrentSearchParagraph = function () {
     --currentSearchParagraph;
     if (currentSearchParagraph === -1) {
       currentSearchParagraph = $scope.note.paragraphs.length - 1;
     }
   };
 
-  $scope.$on('occurrencesExists', function(event, count) {
+  $scope.$on('occurrencesExists', function (event, count) {
     $scope.search.occurrencesCount += count;
     if ($scope.search.needHighlightFirst) {
       sendNextOccurrenceMessage();
@@ -952,32 +975,32 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   });
 
-  $scope.nextOccurrence = function() {
+  $scope.nextOccurrence = function () {
     sendNextOccurrenceMessage();
     increaseCurrentOccurence();
   };
 
-  $scope.$on('noNextOccurrence', function(event) {
+  $scope.$on('noNextOccurrence', function (event) {
     increaseCurrentSearchParagraph();
     sendNextOccurrenceMessage();
   });
 
-  $scope.prevOccurrence = function() {
+  $scope.prevOccurrence = function () {
     sendPrevOccurrenceMessage();
     decreaseCurrentOccurence();
   };
 
-  $scope.$on('noPrevOccurrence', function(event) {
+  $scope.$on('noPrevOccurrence', function (event) {
     decreaseCurrentSearchParagraph();
     sendPrevOccurrenceMessage();
   });
 
-  $scope.$on('editorClicked', function() {
+  $scope.$on('editorClicked', function () {
     $scope.search.occurrencesHidden = true;
     $scope.$broadcast('unmarkAll');
   });
 
-  $scope.replace = function() {
+  $scope.replace = function () {
     if ($scope.search.occurrencesCount === 0) {
       $scope.markAllOccurrencesAndHighlightFirst();
       if ($scope.search.occurrencesCount === 0) {
@@ -995,7 +1018,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   };
 
-  $scope.$on('occurrencesCountChanged', function(event, cnt) {
+  $scope.$on('occurrencesCountChanged', function (event, cnt) {
     $scope.search.occurrencesCount += cnt;
     if ($scope.search.occurrencesCount === 0) {
       $scope.search.currentOccurrence = 0;
@@ -1007,7 +1030,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   });
 
-  $scope.replaceAll = function() {
+  $scope.replaceAll = function () {
     if ($scope.search.occurrencesCount === 0) {
       return;
     }
@@ -1018,7 +1041,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $scope.markAllOccurrencesAndHighlightFirst();
   };
 
-  $scope.$on('noNextOccurrenceAfterReplace', function() {
+  $scope.$on('noNextOccurrenceAfterReplace', function () {
     $scope.search.occurrencesCount = 0;
     $scope.search.needHighlightFirst = false;
     $scope.search.needToSendNextOccurrenceAfterReplace = false;
@@ -1029,13 +1052,13 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   });
 
-  $scope.onPressOnFindInput = function(event) {
+  $scope.onPressOnFindInput = function (event) {
     if (event.keyCode === 13) {
       $scope.nextOccurrence();
     }
   };
 
-  let makeSearchBoxVisible = function() {
+  let makeSearchBoxVisible = function () {
     if ($scope.search.searchBoxOpened) {
       $scope.search.searchBoxOpened = false;
       console.log('make 0');
@@ -1052,11 +1075,11 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   };
 
-  $scope.searchClicked = function() {
+  $scope.searchClicked = function () {
     makeSearchBoxVisible();
   };
 
-  $scope.$on('toggleSearchBox', function() {
+  $scope.$on('toggleSearchBox', function () {
     let elem = angular.element('#searchGroup');
     if ($scope.search.searchBoxOpened) {
       elem.removeClass('open');
@@ -1066,29 +1089,32 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $timeout(makeSearchBoxVisible());
   });
 
-  $scope.restartInterpreter = function(interpreter) {
+  $scope.restartInterpreter = function (interpreter) {
     const thisConfirm = BootstrapDialog.confirm({
       closable: false,
       closeByBackdrop: false,
       closeByKeyboard: false,
       title: '',
       message: 'Do you want to restart ' + _.escape(interpreter.name) + ' interpreter?',
-      callback: function(result) {
+      callback: function (result) {
         if (result) {
           let payload = {
-            'noteId': $scope.note.id,
+            noteId: $scope.note.id,
           };
 
           thisConfirm.$modalFooter.find('button').addClass('disabled');
-          thisConfirm.$modalFooter.find('button:contains("OK")')
+          thisConfirm.$modalFooter
+            .find('button:contains("OK")')
             .html('<i class="fa fa-circle-o-notch fa-spin"></i> Saving Setting');
 
-          $http.put(baseUrlSrv.getRestApiBase() + '/interpreter/setting/restart/' + interpreter.id, payload)
-            .success(function(data, status, headers, config) {
-              let index = _.findIndex($scope.interpreterSettings, {'id': interpreter.id});
+          $http
+            .put(baseUrlSrv.getRestApiBase() + '/interpreter/setting/restart/' + interpreter.id, payload)
+            .success(function (data, status, headers, config) {
+              let index = _.findIndex($scope.interpreterSettings, { id: interpreter.id });
               $scope.interpreterSettings[index] = data.body;
               thisConfirm.close();
-            }).error(function(data, status, headers, config) {
+            })
+            .error(function (data, status, headers, config) {
               thisConfirm.close();
               console.log('Error %o %o', status, data.message);
               BootstrapDialog.show({
@@ -1102,7 +1128,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     });
   };
 
-  $scope.savePermissions = function() {
+  $scope.savePermissions = function () {
     if ($scope.isAnonymous || $rootScope.ticket.principal.trim().length === 0) {
       $scope.blockAnonUsers();
     }
@@ -1111,12 +1137,15 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
       BootstrapDialog.show({
         closable: false,
         title: 'Setting Owners Permissions',
-        message: 'Please fill the [Owners] field. If not, it will set as current user.\n\n' +
-          'Current user : [ ' + _.escape($rootScope.ticket.principal) + ']',
+        message:
+          'Please fill the [Owners] field. If not, it will set as current user.\n\n' +
+          'Current user : [ ' +
+          _.escape($rootScope.ticket.principal) +
+          ']',
         buttons: [
           {
             label: 'Set',
-            action: function(dialog) {
+            action: function (dialog) {
               dialog.close();
               $scope.permissions.owners = [$rootScope.ticket.principal];
               $scope.setPermissions();
@@ -1124,7 +1153,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
           },
           {
             label: 'Cancel',
-            action: function(dialog) {
+            action: function (dialog) {
               dialog.close();
               $scope.openPermissions();
             },
@@ -1136,57 +1165,64 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   };
 
-  $scope.setPermissions = function() {
-    $http.put(baseUrlSrv.getRestApiBase() + '/notebook/' + $scope.note.id + '/permissions',
-      $scope.permissions, {withCredentials: true})
-    .success(function(data, status, headers, config) {
-      getPermissions(function() {
-        console.log('Note permissions %o saved', $scope.permissions);
-        BootstrapDialog.alert({
-          closable: true,
-          title: 'Permissions Saved Successfully',
-          message: 'Owners : ' + _.escape($scope.permissions.owners)
-          + '\n\n' +
-          'Readers : ' + _.escape($scope.permissions.readers) +
-          '\n\n' +
-          'Runners : ' + _.escape($scope.permissions.runners) +
-          '\n\n' +
-          'Writers  : ' + _.escape($scope.permissions.writers),
+  $scope.setPermissions = function () {
+    $http
+      .put(baseUrlSrv.getRestApiBase() + '/notebook/' + $scope.note.id + '/permissions', $scope.permissions, {
+        withCredentials: true,
+      })
+      .success(function (data, status, headers, config) {
+        getPermissions(function () {
+          console.log('Note permissions %o saved', $scope.permissions);
+          BootstrapDialog.alert({
+            closable: true,
+            title: 'Permissions Saved Successfully',
+            message:
+              'Owners : ' +
+              _.escape($scope.permissions.owners) +
+              '\n\n' +
+              'Readers : ' +
+              _.escape($scope.permissions.readers) +
+              '\n\n' +
+              'Runners : ' +
+              _.escape($scope.permissions.runners) +
+              '\n\n' +
+              'Writers  : ' +
+              _.escape($scope.permissions.writers),
+          });
+          $scope.showPermissions = false;
         });
-        $scope.showPermissions = false;
-      });
-    })
-    .error(function(data, status, headers, config) {
-      console.log('Error %o %o', status, data.message);
-      BootstrapDialog.show({
-        closable: false,
-        closeByBackdrop: false,
-        closeByKeyboard: false,
-        title: 'Insufficient privileges',
-        message: _.escape(data.message),
-        buttons: [
-          {
-            label: 'Login',
-            action: function(dialog) {
-              dialog.close();
-              angular.element('#loginModal').modal({
-                show: 'true',
-              });
+      })
+      .error(function (data, status, headers, config) {
+        console.log('Error %o %o', status, data.message);
+        BootstrapDialog.show({
+          closable: false,
+          closeByBackdrop: false,
+          closeByKeyboard: false,
+          title: 'Insufficient privileges',
+          message: _.escape(data.message),
+          buttons: [
+            {
+              label: 'Login',
+              action: function (dialog) {
+                dialog.close();
+                angular.element('#loginModal').modal({
+                  show: 'true',
+                });
+              },
             },
-          },
-          {
-            label: 'Cancel',
-            action: function(dialog) {
-              dialog.close();
-              $location.path('/');
+            {
+              label: 'Cancel',
+              action: function (dialog) {
+                dialog.close();
+                $location.path('/');
+              },
             },
-          },
-        ],
+          ],
+        });
       });
-    });
   };
 
-  $scope.togglePermissions = function() {
+  $scope.togglePermissions = function () {
     let principal = $rootScope.ticket.principal;
     $scope.isAnonymous = principal === 'anonymous' ? true : false;
     if (!!principal && $scope.isAnonymous) {
@@ -1205,9 +1241,9 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   };
 
-  const arrayIntersection = function(arrayFirst, arraySecond) {
-    return arrayFirst.filter(function(x) {
-      if(arraySecond.indexOf(x) !== -1) {
+  const arrayIntersection = function (arrayFirst, arraySecond) {
+    return arrayFirst.filter(function (x) {
+      if (arraySecond.indexOf(x) !== -1) {
         return true;
       } else {
         return false;
@@ -1215,20 +1251,22 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     });
   };
 
-  $scope.setMyPermissions = function() {
+  $scope.setMyPermissions = function () {
     let myPermissions;
     try {
       myPermissions = JSON.parse($rootScope.ticket.roles);
-    } catch(err) {
+    } catch (err) {
       myPermissions = [];
     }
     myPermissions.push($rootScope.ticket.principal);
 
-    $scope.isOwner = !($scope.permissions.owners.length > 0 &&
-       arrayIntersection(myPermissions, $scope.permissions.owners).length === 0);
+    $scope.isOwner = !(
+      $scope.permissions.owners.length > 0 && arrayIntersection(myPermissions, $scope.permissions.owners).length === 0
+    );
 
-    $scope.isWriter = !($scope.permissions.writers.length > 0 &&
-       arrayIntersection(myPermissions, $scope.permissions.writers).length === 0);
+    $scope.isWriter = !(
+      $scope.permissions.writers.length > 0 && arrayIntersection(myPermissions, $scope.permissions.writers).length === 0
+    );
 
     if (!$scope.isOwner && !$scope.isWriter) {
       $scope.viewOnly = true;
@@ -1237,17 +1275,17 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   };
 
-  $scope.toggleNotePersonalizedMode = function() {
+  $scope.toggleNotePersonalizedMode = function () {
     let personalizedMode = $scope.note.config.personalizedMode;
     if ($scope.isOwner) {
       BootstrapDialog.confirm({
         closable: true,
         title: 'Setting the result display',
-        message: function(dialog) {
+        message: function (dialog) {
           let modeText = $scope.note.config.personalizedMode === 'true' ? 'collaborate' : 'personalize';
           return 'Do you want to <span class="text-info">' + modeText + '</span> your analysis?';
         },
-        callback: function(result) {
+        callback: function (result) {
           if (result) {
             if ($scope.note.config.personalizedMode === undefined) {
               $scope.note.config.personalizedMode = 'false';
@@ -1260,7 +1298,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   };
 
-  const isSettingDirty = function() {
+  const isSettingDirty = function () {
     if (angular.equals($scope.interpreterBindings, $scope.interpreterBindingsOrig)) {
       return false;
     } else {
@@ -1268,7 +1306,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   };
 
-  const isPermissionsDirty = function() {
+  const isPermissionsDirty = function () {
     if (angular.equals($scope.permissions, $scope.permissionsOrig)) {
       return false;
     } else {
@@ -1276,11 +1314,11 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   };
 
-  angular.element(document).click(function() {
+  angular.element(document).click(function () {
     angular.element('.ace_autocomplete').hide();
   });
 
-  $scope.isOwnerEmpty = function() {
+  $scope.isOwnerEmpty = function () {
     if ($scope.permissions.owners.length > 0) {
       for (let i = 0; i < $scope.permissions.owners.length; i++) {
         if ($scope.permissions.owners[i].trim().length > 0) {
@@ -1298,7 +1336,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
    ** $scope.$on functions below
    */
 
-  $scope.$on('runAllAbove', function(event, paragraph, isNeedConfirm) {
+  $scope.$on('runAllAbove', function (event, paragraph, isNeedConfirm) {
     let allParagraphs = $scope.note.paragraphs;
     let toRunParagraphs = [];
 
@@ -1326,7 +1364,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
         closable: true,
         title: '',
         message: 'Run all above?',
-        callback: function(result) {
+        callback: function (result) {
           if (result) {
             websocketMsgSrv.runAllParagraphs($scope.note.id, paragraphs);
           }
@@ -1337,17 +1375,16 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $scope.saveCursorPosition(paragraph);
   });
 
-  $scope.$on('collaborativeModeStatus', function(event, data) {
+  $scope.$on('collaborativeModeStatus', function (event, data) {
     $scope.collaborativeMode = Boolean(data.status);
     $scope.collaborativeModeUsers = data.users;
   });
 
-  $scope.$on('patchReceived', function(event, data) {
+  $scope.$on('patchReceived', function (event, data) {
     $scope.collaborativeMode = true;
   });
 
-
-  $scope.$on('runAllBelowAndCurrent', function(event, paragraph, isNeedConfirm) {
+  $scope.$on('runAllBelowAndCurrent', function (event, paragraph, isNeedConfirm) {
     let allParagraphs = $scope.note.paragraphs;
     let toRunParagraphs = [];
 
@@ -1378,7 +1415,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
         closable: true,
         title: '',
         message: 'Run current and all below?',
-        callback: function(result) {
+        callback: function (result) {
           if (result) {
             websocketMsgSrv.runAllParagraphs($scope.note.id, paragraphs);
           }
@@ -1389,16 +1426,14 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $scope.saveCursorPosition(paragraph);
   });
 
-  $scope.saveCursorPosition = function(paragraph) {
-    let angParagEditor = angular
-      .element('#' + paragraph.id + '_paragraphColumn_main')
-      .scope().editor;
+  $scope.saveCursorPosition = function (paragraph) {
+    let angParagEditor = angular.element('#' + paragraph.id + '_paragraphColumn_main').scope().editor;
     let col = angParagEditor.selection.lead.column;
     let row = angParagEditor.selection.lead.row;
     $scope.$broadcast('focusParagraph', paragraph.id, row + 1, col);
   };
 
-  $scope.$on('moveParagraphUp', function(event, paragraph) {
+  $scope.$on('moveParagraphUp', function (event, paragraph) {
     let newIndex = -1;
     for (let i = 0; i < $scope.note.paragraphs.length; i++) {
       if ($scope.note.paragraphs[i].id === paragraph.id) {
@@ -1422,7 +1457,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     websocketMsgSrv.moveParagraph(paragraph.id, newIndex);
   });
 
-  $scope.$on('moveParagraphDown', function(event, paragraph) {
+  $scope.$on('moveParagraphDown', function (event, paragraph) {
     let newIndex = -1;
     for (let i = 0; i < $scope.note.paragraphs.length; i++) {
       if ($scope.note.paragraphs[i].id === paragraph.id) {
@@ -1447,7 +1482,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     websocketMsgSrv.moveParagraph(paragraph.id, newIndex);
   });
 
-  $scope.$on('moveFocusToPreviousParagraph', function(event, currentParagraphId) {
+  $scope.$on('moveFocusToPreviousParagraph', function (event, currentParagraphId) {
     let focus = false;
     for (let i = $scope.note.paragraphs.length - 1; i >= 0; i--) {
       if (focus === false) {
@@ -1462,7 +1497,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   });
 
-  $scope.$on('moveFocusToNextParagraph', function(event, currentParagraphId) {
+  $scope.$on('moveFocusToNextParagraph', function (event, currentParagraphId) {
     let focus = false;
     for (let i = 0; i < $scope.note.paragraphs.length; i++) {
       if (focus === false) {
@@ -1477,7 +1512,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   });
 
-  $scope.$on('insertParagraph', function(event, paragraphId, position) {
+  $scope.$on('insertParagraph', function (event, paragraphId, position) {
     if ($scope.revisionView === true) {
       return;
     }
@@ -1500,7 +1535,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     websocketMsgSrv.insertParagraph(newIndex);
   });
 
-  $scope.$on('setNoteContent', function(event, note) {
+  $scope.$on('setNoteContent', function (event, note) {
     if (note === undefined) {
       $location.path('/');
     }
@@ -1527,7 +1562,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     $scope.note.config.personalizedMode = isPersonalized;
   });
 
-  $scope.$on('$routeChangeStart', function(event, next, current) {
+  $scope.$on('$routeChangeStart', function (event, next, current) {
     if (!$scope.note || !$scope.note.paragraphs) {
       return;
     }
@@ -1536,12 +1571,13 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
         if ($scope.allowLeave === true) {
           return;
         }
-        let thisScope = angular.element(
-          '#' + par.id + '_paragraphColumn_main').scope();
+        let thisScope = angular.element('#' + par.id + '_paragraphColumn_main').scope();
 
-        if (thisScope.dirtyText === undefined ||
+        if (
+          thisScope.dirtyText === undefined ||
           thisScope.originalText === undefined ||
-          thisScope.dirtyText === thisScope.originalText) {
+          thisScope.dirtyText === thisScope.originalText
+        ) {
           return true;
         } else {
           event.preventDefault();
@@ -1551,7 +1587,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     }
   });
 
-  $scope.showParagraphWarning = function(next) {
+  $scope.showParagraphWarning = function (next) {
     if ($scope.paragraphWarningDialog.opened !== true) {
       $scope.paragraphWarningDialog = BootstrapDialog.show({
         closable: false,
@@ -1559,49 +1595,51 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
         closeByKeyboard: false,
         title: 'Do you want to leave this site?',
         message: 'Changes that you have made will not be saved.',
-        buttons: [{
-          label: 'Stay',
-          action: function(dialog) {
-            dialog.close();
+        buttons: [
+          {
+            label: 'Stay',
+            action: function (dialog) {
+              dialog.close();
+            },
           },
-        }, {
-          label: 'Leave',
-          action: function(dialog) {
-            dialog.close();
-            let locationToRedirect = next['$$route']['originalPath'];
-            Object.keys(next.pathParams).map((key) => {
-              locationToRedirect = locationToRedirect.replace(':' + key,
-                next.pathParams[key]);
-            });
-            $scope.allowLeave = true;
-            $location.path(locationToRedirect);
+          {
+            label: 'Leave',
+            action: function (dialog) {
+              dialog.close();
+              let locationToRedirect = next['$$route']['originalPath'];
+              Object.keys(next.pathParams).map((key) => {
+                locationToRedirect = locationToRedirect.replace(':' + key, next.pathParams[key]);
+              });
+              $scope.allowLeave = true;
+              $location.path(locationToRedirect);
+            },
           },
-        }],
+        ],
       });
     }
   };
 
-  $scope.$on('saveNoteForms', function(event, data) {
+  $scope.$on('saveNoteForms', function (event, data) {
     $scope.note.noteForms = data.formsData.forms;
     $scope.note.noteParams = data.formsData.params;
   });
 
-  $scope.isShowNoteForms = function() {
+  $scope.isShowNoteForms = function () {
     if ($scope.note && !_.isEmpty($scope.note.noteForms) && !$scope.paragraphUrl) {
       return true;
     }
     return false;
   };
 
-  $scope.saveNoteForms = function() {
+  $scope.saveNoteForms = function () {
     websocketMsgSrv.saveNoteForms($scope.note);
   };
 
-  $scope.removeNoteForms = function(formName) {
+  $scope.removeNoteForms = function (formName) {
     websocketMsgSrv.removeNoteForms($scope.note, formName);
   };
 
-  $scope.$on('$destroy', function() {
+  $scope.$on('$destroy', function () {
     angular.element(window).off('beforeunload');
     $scope.killSaveTimer();
     $scope.saveNote();
@@ -1610,7 +1648,7 @@ function NotebookCtrl($scope, $route, $routeParams, $location, $rootScope,
     document.removeEventListener('keydown', $scope.keyboardShortcut);
   });
 
-  $scope.$on('$unBindKeyEvent', function() {
+  $scope.$on('$unBindKeyEvent', function () {
     document.removeEventListener('click', $scope.focusParagraphOnClick);
     document.removeEventListener('keydown', $scope.keyboardShortcut);
   });

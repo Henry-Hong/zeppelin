@@ -50,9 +50,9 @@ export default class Transformation {
     // already readered
     if (this._scope) {
       let self = this;
-      this._scope.$apply(function() {
+      this._scope.$apply(function () {
         for (let k in setting.scope) {
-          if(setting.scope.hasOwnProperty(k)) {
+          if (setting.scope.hasOwnProperty(k)) {
             self._scope[k] = setting.scope[k];
           }
         }
@@ -70,16 +70,16 @@ export default class Transformation {
 
     let scope = this._createNewScope();
     for (let k in setting.scope) {
-      if(setting.scope.hasOwnProperty(k)) {
+      if (setting.scope.hasOwnProperty(k)) {
         scope[k] = setting.scope[k];
       }
     }
     let template = setting.template;
 
-    if (template.split('\n').length === 1 &&
-        template.endsWith('.html')) { // template is url
+    if (template.split('\n').length === 1 && template.endsWith('.html')) {
+      // template is url
       let self = this;
-      this._templateRequest(template).then(function(t) {
+      this._templateRequest(template).then(function (t) {
         self._render(targetEl, t, scope);
       });
     } else {

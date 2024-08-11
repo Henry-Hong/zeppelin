@@ -28,30 +28,33 @@ function NotebookRepositoryCtrl($http, baseUrlSrv, ngToast) {
 
   function saveNotebookRepo(valueform, repo, data) {
     console.log('data %o', data);
-    $http.put(baseUrlSrv.getRestApiBase() + '/notebook-repositories', {
-      'name': repo.className,
-      'settings': data,
-    }).success(function(data) {
-      let index = _.findIndex(vm.notebookRepos, {'className': repo.className});
-      if (index >= 0) {
-        vm.notebookRepos[index] = data.body;
-        console.log('repos %o, data %o', vm.notebookRepos, data.body);
-      }
-      valueform.$show();
-    }).error(function() {
-      ngToast.danger({
-        content: 'We couldn\'t save that NotebookRepo\'s settings',
-        verticalPosition: 'bottom',
-        timeout: '3000',
+    $http
+      .put(baseUrlSrv.getRestApiBase() + '/notebook-repositories', {
+        name: repo.className,
+        settings: data,
+      })
+      .success(function (data) {
+        let index = _.findIndex(vm.notebookRepos, { className: repo.className });
+        if (index >= 0) {
+          vm.notebookRepos[index] = data.body;
+          console.log('repos %o, data %o', vm.notebookRepos, data.body);
+        }
+        valueform.$show();
+      })
+      .error(function () {
+        ngToast.danger({
+          content: "We couldn't save that NotebookRepo's settings",
+          verticalPosition: 'bottom',
+          timeout: '3000',
+        });
+        valueform.$show();
       });
-      valueform.$show();
-    });
 
     return 'manual';
   }
 
   function showDropdownSelected(setting) {
-    let index = _.findIndex(setting.value, {'value': setting.selected});
+    let index = _.findIndex(setting.value, { value: setting.selected });
     if (index < 0) {
       return 'No value';
     } else {
@@ -62,18 +65,20 @@ function NotebookRepositoryCtrl($http, baseUrlSrv, ngToast) {
   // Private functions
 
   function _getInterpreterSettings() {
-    $http.get(baseUrlSrv.getRestApiBase() + '/notebook-repositories')
-      .success(function(data, status, headers, config) {
+    $http
+      .get(baseUrlSrv.getRestApiBase() + '/notebook-repositories')
+      .success(function (data, status, headers, config) {
         vm.notebookRepos = data.body;
         console.log('ya notebookRepos %o', vm.notebookRepos);
-      }).error(function(data, status, headers, config) {
+      })
+      .error(function (data, status, headers, config) {
         if (status === 401) {
           ngToast.danger({
-            content: 'You don\'t have permission on this page',
+            content: "You don't have permission on this page",
             verticalPosition: 'bottom',
             timeout: '3000',
           });
-          setTimeout(function() {
+          setTimeout(function () {
             window.location = baseUrlSrv.getBase();
           }, 3000);
         }

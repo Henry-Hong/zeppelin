@@ -128,8 +128,7 @@ export class DataWithType {
    * @param textWithoutMagic
    * @return {Promise<Array<DataWithType>>}
    */
-  static produceMultipleData(dataWithType, customDisplayType,
-                             magic, textWithoutMagic) {
+  static produceMultipleData(dataWithType, customDisplayType, magic, textWithoutMagic) {
     const data = dataWithType.getData();
     const type = dataWithType.getType();
 
@@ -146,23 +145,20 @@ export class DataWithType {
     if (SpellResult.isFunction(data)) {
       // if data is a function, we consider it as ELEMENT type.
       wrapped = new Promise((resolve) => {
-        const dt = new DataWithType(
-          data, DefaultDisplayType.ELEMENT, magic, textWithoutMagic);
+        const dt = new DataWithType(data, DefaultDisplayType.ELEMENT, magic, textWithoutMagic);
         const result = [dt];
         return resolve(result);
       });
     } else if (SpellResult.isPromise(data)) {
       // if data is a promise,
       wrapped = data.then((generated) => {
-        const result =
-          DataWithType.parseStringData(generated, customDisplayType);
+        const result = DataWithType.parseStringData(generated, customDisplayType);
         return result;
       });
     } else {
       // if data is a object, parse it to multiples
       wrapped = new Promise((resolve) => {
-        const result =
-          DataWithType.parseStringData(data, customDisplayType);
+        const result = DataWithType.parseStringData(data, customDisplayType);
         return resolve(result);
       });
     }
@@ -209,17 +205,15 @@ export class SpellResult {
   }
 
   static isFunction(data) {
-    return (data && typeof data === 'function');
+    return data && typeof data === 'function';
   }
 
   static isPromise(data) {
-    return (data && typeof data.then === 'function');
+    return data && typeof data.then === 'function';
   }
 
   static isObject(data) {
-    return (typeof data !== 'undefined' &&
-      !SpellResult.isFunction(data) &&
-      !SpellResult.isPromise(data));
+    return typeof data !== 'undefined' && !SpellResult.isFunction(data) && !SpellResult.isPromise(data);
   }
 
   static extractMagic(allParagraphText) {
@@ -244,8 +238,7 @@ export class SpellResult {
 
   add(resultData, resultType) {
     if (resultData) {
-      this.dataWithTypes.push(
-        new DataWithType(resultData, resultType));
+      this.dataWithTypes.push(new DataWithType(resultData, resultType));
     }
 
     return this;
@@ -258,8 +251,7 @@ export class SpellResult {
    */
   getAllParsedDataWithTypes(customDisplayType, magic, textWithoutMagic) {
     const promises = this.dataWithTypes.map((dt) => {
-      return DataWithType.produceMultipleData(
-        dt, customDisplayType, magic, textWithoutMagic);
+      return DataWithType.produceMultipleData(dt, customDisplayType, magic, textWithoutMagic);
     });
 
     // some promises can include an array so we need to flatten them

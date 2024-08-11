@@ -47,9 +47,11 @@ const requiredModules = [
   'infinite-scroll',
   'ui.grid',
   'ui.grid.exporter',
-  'ui.grid.edit', 'ui.grid.rowEdit',
+  'ui.grid.edit',
+  'ui.grid.rowEdit',
   'ui.grid.selection',
-  'ui.grid.cellNav', 'ui.grid.pinning',
+  'ui.grid.cellNav',
+  'ui.grid.pinning',
   'ui.grid.grouping',
   'ui.grid.emptyBaseLayer',
   'ui.grid.resizeColumns',
@@ -64,23 +66,27 @@ if (!process.env.BUILD_CI) {
   requiredModules.push('headroom');
 }
 
-let zeppelinWebApp = angular.module('zeppelinWebApp', requiredModules)
-  .filter('breakFilter', function() {
-    return function(text) {
+let zeppelinWebApp = angular
+  .module('zeppelinWebApp', requiredModules)
+  .filter('breakFilter', function () {
+    return function (text) {
       // eslint-disable-next-line no-extra-boolean-cast
       if (!!text) {
         return text.replace(/\n/g, '<br />');
       }
     };
   })
-  .config(function($httpProvider, $routeProvider, ngToastProvider) {
+  .config(function ($httpProvider, $routeProvider, ngToastProvider) {
     // withCredentials when running locally via grunt
     $httpProvider.defaults.withCredentials = true;
 
     let visBundleLoad = {
-      load: ['heliumService', function(heliumService) {
-        return heliumService.load;
-      }],
+      load: [
+        'heliumService',
+        function (heliumService) {
+          return heliumService.load;
+        },
+      ],
     };
 
     $routeProvider
@@ -157,25 +163,25 @@ let zeppelinWebApp = angular.module('zeppelinWebApp', requiredModules)
   })
 
   // handel logout on API failure
-    .config(function($httpProvider, $provide) {
-      if (process.env.PROD) {
-        $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-      }
-      $provide.factory('httpInterceptor', function($q, $rootScope) {
-        return {
-          'responseError': function(rejection) {
-            if (rejection.status === 405) {
-              let data = {};
-              data.info = '';
-              $rootScope.$broadcast('session_logout', data);
-            }
-            $rootScope.$broadcast('httpResponseError', rejection);
-            return $q.reject(rejection);
-          },
-        };
-      });
-      $httpProvider.interceptors.push('httpInterceptor');
-    })
+  .config(function ($httpProvider, $provide) {
+    if (process.env.PROD) {
+      $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    }
+    $provide.factory('httpInterceptor', function ($q, $rootScope) {
+      return {
+        responseError: function (rejection) {
+          if (rejection.status === 405) {
+            let data = {};
+            data.info = '';
+            $rootScope.$broadcast('session_logout', data);
+          }
+          $rootScope.$broadcast('httpResponseError', rejection);
+          return $q.reject(rejection);
+        },
+      };
+    });
+    $httpProvider.interceptors.push('httpInterceptor');
+  })
   .constant('TRASH_FOLDER_ID', '~Trash');
 
 function auth() {
@@ -191,34 +197,37 @@ function auth() {
     },
     crossDomain: true,
   });
-  let config = (process.env.PROD) ? {headers: {'X-Requested-With': 'XMLHttpRequest'}} : {};
-  return $http.get(baseUrlSrv.getRestApiBase() + '/security/ticket', config).then(function(response) {
-    zeppelinWebApp.run(function($rootScope) {
-      let res = angular.fromJson(response.data).body;
-      if (res['redirectURL']) {
-        window.location.href = res['redirectURL'] + window.location.href;
-      } else {
-        $rootScope.ticket = res;
-        $rootScope.ticket.screenUsername = $rootScope.ticket.principal;
-        if ($rootScope.ticket.principal.indexOf('#Pac4j') === 0) {
-          let re = ', name=(.*?),';
-          $rootScope.ticket.screenUsername = $rootScope.ticket.principal.match(re)[1];
+  let config = process.env.PROD ? { headers: { 'X-Requested-With': 'XMLHttpRequest' } } : {};
+  return $http.get(baseUrlSrv.getRestApiBase() + '/security/ticket', config).then(
+    function (response) {
+      zeppelinWebApp.run(function ($rootScope) {
+        let res = angular.fromJson(response.data).body;
+        if (res['redirectURL']) {
+          window.location.href = res['redirectURL'] + window.location.href;
+        } else {
+          $rootScope.ticket = res;
+          $rootScope.ticket.screenUsername = $rootScope.ticket.principal;
+          if ($rootScope.ticket.principal.indexOf('#Pac4j') === 0) {
+            let re = ', name=(.*?),';
+            $rootScope.ticket.screenUsername = $rootScope.ticket.principal.match(re)[1];
+          }
         }
+      });
+    },
+    function (errorResponse) {
+      // Handle error case
+      let redirect = errorResponse.headers('Location');
+      if (errorResponse.status === 401 && redirect !== undefined) {
+        // Handle page redirect
+        window.location.href = redirect;
       }
-    });
-  }, function(errorResponse) {
-    // Handle error case
-    let redirect = errorResponse.headers('Location');
-    if (errorResponse.status === 401 && redirect !== undefined) {
-      // Handle page redirect
-      window.location.href = redirect;
-    }
-  });
+    },
+  );
 }
 
 function bootstrapApplication() {
-  zeppelinWebApp.run(function($rootScope, $location) {
-    $rootScope.$on('$routeChangeStart', function(event, next, current) {
+  zeppelinWebApp.run(function ($rootScope, $location) {
+    $rootScope.$on('$routeChangeStart', function (event, next, current) {
       $rootScope.pageTitle = 'Zeppelin';
       if (!$rootScope.ticket && next.$$route && !next.$$route.publicAccess) {
         const oldPath = ($location.search() && $location.search()['ref']) || $location.path();
@@ -229,6 +238,6 @@ function bootstrapApplication() {
   angular.bootstrap(document, ['zeppelinWebApp']);
 }
 
-angular.element(document).ready(function() {
+angular.element(document).ready(function () {
   auth().then(bootstrapApplication);
 });

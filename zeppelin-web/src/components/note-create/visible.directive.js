@@ -22,11 +22,11 @@ function modalvisible() {
       postVisibleCallback: '&postvisiblecallback',
       targetinput: '@targetinput',
     },
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       // Add some listeners
       let previsibleMethod = scope.preVisibleCallback;
       let postVisibleMethod = scope.postVisibleCallback;
-      element.on('show.bs.modal', function(e) {
+      element.on('show.bs.modal', function (e) {
         let relatedTarget = angular.element(e.relatedTarget);
         let clone = relatedTarget.data('clone');
         let sourceNoteName = relatedTarget.data('source-note-name');
@@ -34,7 +34,7 @@ function modalvisible() {
         let cloneNote = clone ? true : false;
         previsibleMethod()(cloneNote, sourceNoteName, path);
       });
-      element.on('shown.bs.modal', function(e) {
+      element.on('shown.bs.modal', function (e) {
         if (scope.targetinput) {
           let ele = angular.element(e.target).find('input#' + scope.targetinput);
           ele[0].focus();

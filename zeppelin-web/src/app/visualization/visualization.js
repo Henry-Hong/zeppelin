@@ -136,7 +136,7 @@ export default class Visualization {
     // already readered
     if (this._scope) {
       let self = this;
-      this._scope.$apply(function() {
+      this._scope.$apply(function () {
         for (let k in setting.scope) {
           if (setting.scope.hasOwnProperty(k)) {
             self._scope[k] = setting.scope[k];
@@ -162,11 +162,9 @@ export default class Visualization {
     }
     let template = setting.template;
 
-    if (template.split('\n').length === 1 &&
-        template.endsWith('.html')) { // template is url
-      this._templateRequest(template).then((t) =>
-      _renderSetting(this, targetEl, t, scope)
-      );
+    if (template.split('\n').length === 1 && template.endsWith('.html')) {
+      // template is url
+      this._templateRequest(template).then((t) => _renderSetting(this, targetEl, t, scope));
     } else {
       _renderSetting(this, targetEl, template, scope);
     }

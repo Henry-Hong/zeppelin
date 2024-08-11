@@ -14,5 +14,4 @@
 
 import HeliumController from './helium.controller';
 
-angular.module('zeppelinWebApp')
-  .controller('HeliumCtrl', HeliumController);
+angular.module('zeppelinWebApp').controller('HeliumCtrl', HeliumController);

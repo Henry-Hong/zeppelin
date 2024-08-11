@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Dataset, DatasetType} from './dataset';
+import { Dataset, DatasetType } from './dataset';
 
 /**
  * Create table data object from paragraph table type result
@@ -56,11 +56,11 @@ export default class TableData extends Dataset {
       for (let j = 0; j < textCols.length; j++) {
         let col = textCols[j];
         if (i === 0) {
-          columnNames.push({name: col, index: j, aggr: 'sum'});
+          columnNames.push({ name: col, index: j, aggr: 'sum' });
         } else {
           let valueOfCol;
           if (!(col[0] === '0' || col[0] === '+' || col.length > float64MaxDigits)) {
-            if (!isNaN(valueOfCol = col) && isFinite(col)) {
+            if (!isNaN((valueOfCol = col)) && isFinite(col)) {
               col = valueOfCol;
             }
           }

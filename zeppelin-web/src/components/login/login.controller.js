@@ -19,7 +19,7 @@ function LoginCtrl($scope, $rootScope, $http, $httpParamSerializer, baseUrlSrv, 
 
   $scope.SigningIn = false;
   $scope.loginParams = {};
-  $scope.login = function() {
+  $scope.login = function () {
     $scope.SigningIn = true;
     $http({
       method: 'POST',
@@ -28,32 +28,35 @@ function LoginCtrl($scope, $rootScope, $http, $httpParamSerializer, baseUrlSrv, 
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       data: $httpParamSerializer({
-        'userName': $scope.loginParams.userName,
-        'password': $scope.loginParams.password,
+        userName: $scope.loginParams.userName,
+        password: $scope.loginParams.password,
       }),
-    }).then(function successCallback(response) {
-      $rootScope.ticket = response.data.body;
-      angular.element('#loginModal').modal('toggle');
-      $rootScope.$broadcast('loginSuccess', true);
-      $rootScope.userName = $scope.loginParams.userName;
-      $scope.SigningIn = false;
+    }).then(
+      function successCallback(response) {
+        $rootScope.ticket = response.data.body;
+        angular.element('#loginModal').modal('toggle');
+        $rootScope.$broadcast('loginSuccess', true);
+        $rootScope.userName = $scope.loginParams.userName;
+        $scope.SigningIn = false;
 
-      // redirect to the page from where the user originally was
-      if ($location.search() && $location.search()['ref']) {
-        $timeout(function() {
-          let redirectLocation = $location.search()['ref'];
-          $location.$$search = {};
-          $location.path(redirectLocation);
-          $scope.$apply();
-        }, 100);
-      }
-    }, function errorCallback(errorResponse) {
-      $scope.loginParams.errorText = 'The username and password that you entered don\'t match.';
-      $scope.SigningIn = false;
-    });
+        // redirect to the page from where the user originally was
+        if ($location.search() && $location.search()['ref']) {
+          $timeout(function () {
+            let redirectLocation = $location.search()['ref'];
+            $location.$$search = {};
+            $location.path(redirectLocation);
+            $scope.$apply();
+          }, 100);
+        }
+      },
+      function errorCallback(errorResponse) {
+        $scope.loginParams.errorText = "The username and password that you entered don't match.";
+        $scope.SigningIn = false;
+      },
+    );
   };
 
-  let initValues = function() {
+  let initValues = function () {
     $scope.loginParams = {
       userName: '',
       password: '',
@@ -61,12 +64,12 @@ function LoginCtrl($scope, $rootScope, $http, $httpParamSerializer, baseUrlSrv, 
   };
 
   // handle session logout message received from WebSocket
-  $rootScope.$on('session_logout', function(event, data) {
+  $rootScope.$on('session_logout', function (event, data) {
     if ($rootScope.userName !== '') {
       $rootScope.userName = '';
       $rootScope.ticket = undefined;
 
-      setTimeout(function() {
+      setTimeout(function () {
         $scope.loginParams = {};
         $scope.loginParams.errorText = data.info;
         angular.element('.nav-login-btn').click();
@@ -79,7 +82,7 @@ function LoginCtrl($scope, $rootScope, $http, $httpParamSerializer, baseUrlSrv, 
   /*
    ** $scope.$on functions below
    */
-  $scope.$on('initLoginValues', function() {
+  $scope.$on('initLoginValues', function () {
     initValues();
   });
 }

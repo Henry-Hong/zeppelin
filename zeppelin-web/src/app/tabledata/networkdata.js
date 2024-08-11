@@ -13,7 +13,7 @@
  */
 
 import TableData from './tabledata';
-import {DatasetType} from './dataset';
+import { DatasetType } from './dataset';
 
 /**
  * Create network data object from paragraph graph type result
@@ -23,7 +23,7 @@ export default class NetworkData extends TableData {
     super();
     this.graph = graph || {};
     if (this.graph.nodes) {
-      this.loadParagraphResult({msg: JSON.stringify(graph), type: DatasetType.NETWORK});
+      this.loadParagraphResult({ msg: JSON.stringify(graph), type: DatasetType.NETWORK });
     }
   }
 
@@ -42,26 +42,27 @@ export default class NetworkData extends TableData {
 
     this.graph.edges = this.graph.edges || [];
     this.networkNodes = angular.equals({}, this.graph.labels || {})
-      ? null : {count: this.graph.nodes.length, labels: this.graph.labels};
+      ? null
+      : { count: this.graph.nodes.length, labels: this.graph.labels };
     this.networkRelationships = angular.equals([], this.graph.types || [])
-      ? null : {count: this.graph.edges.length, types: this.graph.types};
+      ? null
+      : { count: this.graph.edges.length, types: this.graph.types };
 
     const rows = [];
     const comment = '';
     const entities = this.graph.nodes.concat(this.graph.edges);
-    const baseColumnNames = [{name: 'id', index: 0, aggr: 'sum'}];
+    const baseColumnNames = [{ name: 'id', index: 0, aggr: 'sum' }];
     const containsLabelField = _.find(entities, (entity) => 'label' in entity) !== undefined;
     if (this.graph.labels || this.graph.types || containsLabelField) {
-      baseColumnNames.push({name: 'label', index: 1, aggr: 'sum'});
+      baseColumnNames.push({ name: 'label', index: 1, aggr: 'sum' });
     }
-    const internalFieldsToJump = ['count', 'size', 'totalCount',
-      'data', 'x', 'y', 'labels', 'source', 'target'];
+    const internalFieldsToJump = ['count', 'size', 'totalCount', 'data', 'x', 'y', 'labels', 'source', 'target'];
     const baseCols = _.map(baseColumnNames, (col) => col.name);
     let keys = _.map(entities, (elem) => Object.keys(elem.data || {}));
     keys = _.flatten(keys);
     keys = _.uniq(keys).filter((key) => baseCols.indexOf(key) === -1);
     const entityColumnNames = _.map(keys, (elem, i) => {
-      return {name: elem, index: i + baseColumnNames.length, aggr: 'sum'};
+      return { name: elem, index: i + baseColumnNames.length, aggr: 'sum' };
     });
     const columnNames = baseColumnNames.concat(entityColumnNames);
     for (let i = 0; i < entities.length; i++) {
@@ -70,8 +71,7 @@ export default class NetworkData extends TableData {
       entity.data = entity.data || {};
       for (let j = 0; j < columnNames.length; j++) {
         const name = columnNames[j].name;
-        const value = name in entity && internalFieldsToJump.indexOf(name) === -1
-          ? entity[name] : entity.data[name];
+        const value = name in entity && internalFieldsToJump.indexOf(name) === -1 ? entity[name] : entity.data[name];
         const parsedValue = value === null || value === undefined ? '' : value;
         col.push(parsedValue);
       }

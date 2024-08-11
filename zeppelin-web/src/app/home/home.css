@@ -160,16 +160,16 @@ body .navbar {
 }
 
 .dropdown-submenu > .dropdown-menu {
-  top:0;
-  left:100%;
-  margin-top:-6px;
-  margin-left:-1px;
-  -webkit-border-radius:0 6px 6px 6px;
-  -moz-border-radius:0 6px 6px 6px;
-  border-radius:0 6px 6px 6px;
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  -webkit-border-radius: 0 6px 6px 6px;
+  -moz-border-radius: 0 6px 6px 6px;
+  border-radius: 0 6px 6px 6px;
 }
 .dropdown-submenu:hover > .dropdown-menu {
-  display:block;
+  display: block;
 }
 /* overwrite the style of the first element of dropdown-menu */
 .dropdown-submenu:hover > .dropdown-menu > li:first-child > a:hover {
@@ -178,30 +178,30 @@ body .navbar {
   background: #f5f5f5;
 }
 .dropdown-submenu > a:after {
-  display:block;
-  content:" ";
-  float:right;
-  width:0;
-  height:0;
-  border-color:transparent;
-  border-style:solid;
-  border-width:5px 0 5px 5px;
-  border-left-color:#cccccc;
-  margin-top:5px;
-  margin-right:-10px;
+  display: block;
+  content: ' ';
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
 }
 .dropdown-submenu:hover > a:after {
-  border-left-color:#ffffff;
+  border-left-color: #ffffff;
 }
 .dropdown-submenu.pull-left {
-  float:none;
+  float: none;
 }
 .dropdown-submenu.pull-left > .dropdown-menu {
-  left:-100%;
-  margin-left:10px;
-  -webkit-border-radius:6px 0 6px 6px;
-  -moz-border-radius:6px 0 6px 6px;
-  border-radius:6px 0 6px 6px;
+  left: -100%;
+  margin-left: 10px;
+  -webkit-border-radius: 6px 0 6px 6px;
+  -moz-border-radius: 6px 0 6px 6px;
+  border-radius: 6px 0 6px 6px;
 }
 
 #main {
@@ -254,7 +254,7 @@ body .navbar {
 
 .server-connected {
   padding-top: 12px;
-  color: #00CC00;
+  color: #00cc00;
   font-size: 12px !important;
 }
 
@@ -335,7 +335,12 @@ kbd {
   background-repeat: repeat-x;
   display: inline-block;
   padding: 4px 5px;
-  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font:
+    11px Consolas,
+    'Liberation Mono',
+    Menlo,
+    Courier,
+    monospace;
   line-height: 10px;
   color: #000;
   border: 1px solid #cfcfcf;
@@ -360,7 +365,8 @@ This part should be removed when new version of bootstrap handles this issue.
   z-index: 10002 !important;
 }
 
-.modal-dialog, .modal {
+.modal-dialog,
+.modal {
   z-index: 10003 !important;
 }
 

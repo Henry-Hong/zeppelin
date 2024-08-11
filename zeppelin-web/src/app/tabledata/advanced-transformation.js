@@ -15,13 +15,27 @@
 import Transformation from './transformation';
 
 import {
-  getCurrentChart, getCurrentChartAxis, getCurrentChartParam,
-  serializeSharedAxes, useSharedAxis,
-  getCurrentChartAxisSpecs, getCurrentChartParamSpecs,
-  initializeConfig, resetAxisConfig, resetParameterConfig,
-  isAggregatorAxis, isGroupAxis, isKeyAxis, isSingleDimensionAxis,
-  removeDuplicatedColumnsInMultiDimensionAxis, applyMaxAxisCount,
-  isInputWidget, isOptionWidget, isCheckboxWidget, isTextareaWidget, parseParameter,
+  getCurrentChart,
+  getCurrentChartAxis,
+  getCurrentChartParam,
+  serializeSharedAxes,
+  useSharedAxis,
+  getCurrentChartAxisSpecs,
+  getCurrentChartParamSpecs,
+  initializeConfig,
+  resetAxisConfig,
+  resetParameterConfig,
+  isAggregatorAxis,
+  isGroupAxis,
+  isKeyAxis,
+  isSingleDimensionAxis,
+  removeDuplicatedColumnsInMultiDimensionAxis,
+  applyMaxAxisCount,
+  isInputWidget,
+  isOptionWidget,
+  isCheckboxWidget,
+  isTextareaWidget,
+  parseParameter,
   getTransformer,
 } from './advanced-transformation-util';
 
@@ -129,13 +143,13 @@ export default class AdvancedTransformation extends Transformation {
 
         getAxisAnnotationColor: (axisSpec) => {
           if (isAggregatorAxis(axisSpec)) {
-            return {'background-color': '#5782bd'};
+            return { 'background-color': '#5782bd' };
           } else if (isGroupAxis(axisSpec)) {
-            return {'background-color': '#cd5c5c'};
+            return { 'background-color': '#cd5c5c' };
           } else if (isKeyAxis(axisSpec)) {
-            return {'background-color': '#906ebd'};
+            return { 'background-color': '#906ebd' };
           } else {
-            return {'background-color': '#62bda9'};
+            return { 'background-color': '#62bda9' };
           }
         },
 
@@ -163,7 +177,7 @@ export default class AdvancedTransformation extends Transformation {
           self.emitChartChange(configInstance);
         },
 
-        axisChanged: function(e, ui, axisSpec) {
+        axisChanged: function (e, ui, axisSpec) {
           removeDuplicatedColumnsInMultiDimensionAxis(configInstance, axisSpec);
           applyMaxAxisCount(configInstance, axisSpec);
 
@@ -181,7 +195,7 @@ export default class AdvancedTransformation extends Transformation {
           self.emitChartChange(configInstance);
         },
 
-        removeFromAxis: function(colIndex, axisSpec) {
+        removeFromAxis: function (colIndex, axisSpec) {
           if (isSingleDimensionAxis(axisSpec)) {
             getCurrentChartAxis(configInstance)[axisSpec.name] = null;
           } else {
@@ -191,16 +205,16 @@ export default class AdvancedTransformation extends Transformation {
           self.emitChartChange(configInstance);
         },
 
-        isInputWidget: function(paramSpec) {
+        isInputWidget: function (paramSpec) {
           return isInputWidget(paramSpec);
         },
-        isCheckboxWidget: function(paramSpec) {
+        isCheckboxWidget: function (paramSpec) {
           return isCheckboxWidget(paramSpec);
         },
-        isOptionWidget: function(paramSpec) {
+        isOptionWidget: function (paramSpec) {
           return isOptionWidget(paramSpec);
         },
-        isTextareaWidget: function(paramSpec) {
+        isTextareaWidget: function (paramSpec) {
           return isTextareaWidget(paramSpec);
         },
 
@@ -210,7 +224,7 @@ export default class AdvancedTransformation extends Transformation {
           self.emitParameterChange(configInstance);
         },
 
-        parameterOnKeyDown: function(event, paramSpec) {
+        parameterOnKeyDown: function (event, paramSpec) {
           const code = event.keyCode || event.which;
           if (code === 13 && isInputWidget(paramSpec)) {
             self.emitParameterChange(configInstance);
@@ -220,7 +234,6 @@ export default class AdvancedTransformation extends Transformation {
 
           event.stopPropagation(); /** avoid to conflict with paragraph shortcuts */
         },
-
       },
     };
   }
@@ -238,15 +251,15 @@ export default class AdvancedTransformation extends Transformation {
     const paramSpecs = getCurrentChartParamSpecs(conf);
     const parsedParam = parseParameter(paramSpecs, param);
 
-    let {transformer, column} = getTransformer(conf, tableData.rows, axisSpecs, axis);
+    let { transformer, column } = getTransformer(conf, tableData.rows, axisSpecs, axis);
 
     return {
       chartChanged: conf.chartChanged,
       parameterChanged: conf.parameterChanged,
 
-      chart: chart, /** current chart */
-      axis: axis, /** persisted axis */
-      parameter: parsedParam, /** persisted parameter */
+      chart: chart /** current chart */,
+      axis: axis /** persisted axis */,
+      parameter: parsedParam /** persisted parameter */,
       column: column,
 
       transformer: transformer,

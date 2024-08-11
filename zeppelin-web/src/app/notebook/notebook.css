@@ -16,7 +16,7 @@
   padding-top: 36px;
 }
 
-.revision  {
+.revision {
   max-width: 250px;
   margin-bottom: 0 !important;
 }
@@ -73,14 +73,14 @@
 }
 
 .labelBtn {
-  padding: .8em .4em .3em;
+  padding: 0.8em 0.4em 0.3em;
   font-size: 75%;
   font-weight: bold;
   line-height: 1;
   color: #fff;
   text-align: center;
   white-space: nowrap;
-  border-radius: .25em;
+  border-radius: 0.25em;
 }
 
 .note-jump {
@@ -91,27 +91,27 @@
   Add New Paragraph
  */
 
-.new-paragraph{
+.new-paragraph {
   text-align: center;
   height: 7px;
   margin: -7px 2px 0 2px;
   cursor: pointer;
 }
 
-.new-paragraph:hover{
+.new-paragraph:hover {
   background: #d3e5ea;
 }
 
-.new-paragraph:hover .plus-sign{
+.new-paragraph:hover .plus-sign {
   display: block;
 }
 
-.new-paragraph-disable{
+.new-paragraph-disable {
   color: lightgray !important;
   cursor: default !important;
 }
 
-.plus-sign{
+.plus-sign {
   display: none;
   height: 7px;
   margin: 0;
@@ -121,11 +121,11 @@
 }
 
 .noteBtnfa {
-    margin-left: 3px;
+  margin-left: 3px;
 }
 
 .disable {
-  opacity: 0.6!important;
+  opacity: 0.6 !important;
   pointer-events: none;
 }
 
@@ -179,8 +179,8 @@
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   margin-left: 1rem;
   padding-top: 5px;
 }
@@ -197,12 +197,13 @@
   padding-left: 14px;
 }
 
-.form-control-title-input:after, .form-control-title:after {
-  content: "\200E‎";
+.form-control-title-input:after,
+.form-control-title:after {
+  content: '\200E‎';
 }
 
 .noOverflow {
-    overflow: hidden !important;
+  overflow: hidden !important;
 }
 
 /*
@@ -216,35 +217,35 @@
   margin-right: -10px;
   font-family: 'Roboto', sans-serif;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .permissions .permissionsForm {
   list-style-type: none;
-  background: #EFEFEF;
+  background: #efefef;
   padding: 10px 10px 10px 10px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  border: 1px solid #E5E5E5;
+  border: 1px solid #e5e5e5;
 }
 
 .permissions .owners {
-    width:60px;
-    display: inline-block;
+  width: 60px;
+  display: inline-block;
 }
 
 .permissions .readers {
-    width:60px;
-    display: inline-block;
+  width: 60px;
+  display: inline-block;
 }
 
 .permissions .runners {
-    width:60px;
-    display: inline-block;
+  width: 60px;
+  display: inline-block;
 }
 
 .permissions .writers {
-    width:60px;
-    display: inline-block;
+  width: 60px;
+  display: inline-block;
 }
 /*
   Note Setting Panel
@@ -257,15 +258,15 @@
   margin-right: -10px;
   font-family: 'Roboto', sans-serif;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .setting .interpreterSettings {
   list-style-type: none;
-  background: #EFEFEF;
+  background: #efefef;
   padding: 10px 10px 10px 10px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  border: 1px solid #E5E5E5;
+  border: 1px solid #e5e5e5;
 }
 
 .setting .interpreterSettings div div {
@@ -335,7 +336,7 @@
   cursor: default;
 }
 
-.select2-container--default{
+.select2-container--default {
   min-width: 150px;
   max-width: 50%;
 }
@@ -352,10 +353,14 @@
   top: 50px;
   left: 0;
   right: 0;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
-.noteAction.headroom--unpinned { top: -100px; }
-.noteAction.headroom--pinned { top: 50px; /** `noteAction` top */ }
+.noteAction.headroom--unpinned {
+  top: -100px;
+}
+.noteAction.headroom--pinned {
+  top: 50px; /** `noteAction` top */
+}
 
 .search-group input,
 .search-group .input-group-addon,
@@ -418,27 +423,27 @@
 }
 
 .new-paragraph:hover .plus-sign {
-    display: block;
-    background: #ECF7FD;
-    height: 30px;
-    text-align: center;
-    position: absolute;
-    width: calc(100% - 4px);
-    line-height: 30px;
-    top: -23px;
-    border: 1px solid #DDDDDD;
-    border-radius: 3px;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 2px 4px;
+  display: block;
+  background: #ecf7fd;
+  height: 30px;
+  text-align: center;
+  position: absolute;
+  width: calc(100% - 4px);
+  line-height: 30px;
+  top: -23px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 2px 4px;
 }
 
 .first-paragraph:hover .plus-sign {
-    top: -14px;
-    z-index: 100000;
+  top: -14px;
+  z-index: 100000;
 }
 
 .last-paragraph:hover .plus-sign {
-    position: relative;
-    top: -16px;
+  position: relative;
+  top: -16px;
 }
 
 .notebook-form-title {

@@ -31,29 +31,36 @@ limitations under the License.
     <div>
       <h5>Interpreter binding</h5>
       <p>
-        Clicking the restart icon before the interpreter can restart interpreter associated with this note when your interpreter is isolated per note. <br />
-        Drag and drop to reorder interpreters. The first interpreter on the list becomes default. <br />
-        To create/remove interpreters, go to <a href="#/interpreter">Interpreter</a> menu.
+        Clicking the restart icon before the interpreter can restart interpreter associated with this note when your
+        interpreter is isolated per note.
+        <br />
+        Drag and drop to reorder interpreters. The first interpreter on the list becomes default.
+        <br />
+        To create/remove interpreters, go to
+        <a href="#/interpreter">Interpreter</a>
+        menu.
       </p>
 
-      <div class="interpreterSettings"
-           as-sortable="interpreterSelectionListeners" data-ng-model="interpreterBindings">
+      <div class="interpreterSettings" as-sortable="interpreterSelectionListeners" data-ng-model="interpreterBindings">
         <div data-ng-repeat="item in interpreterBindings" as-sortable-item>
           <div>
-            <a ng-click="restartInterpreter(item)"
-               uib-tooltip="Restart">
+            <a ng-click="restartInterpreter(item)" uib-tooltip="Restart">
               <span class="glyphicon glyphicon-refresh btn-md"></span>
-            </a>&nbsp
-            <div as-sortable-item-handle
-                 class="btn"
-                 ng-class="{'btn-info': item.selected, 'btn-default': !item.selected}">
-              <font style="font-size:16px">{{item.name}}</font>
+            </a>
+            &nbsp
+            <div
+              as-sortable-item-handle
+              class="btn"
+              ng-class="{'btn-info': item.selected, 'btn-default': !item.selected}"
+            >
+              <font style="font-size: 16px">{{item.name}}</font>
               <small>
-                <span style="display:inline-block" ng-repeat="intp in item.interpreters">
-                  <span ng-show="!$first">, </span>
-                  %<span ng-show="!$parent.$first || $first">{{item.name}}</span
-                  ><span ng-show="(!$parent.$first || $first) && !$first">.</span
-                  ><span ng-show="!$first">{{intp.name}}</span>
+                <span style="display: inline-block" ng-repeat="intp in item.interpreters">
+                  <span ng-show="!$first">,</span>
+                  %
+                  <span ng-show="!$parent.$first || $first">{{item.name}}</span>
+                  <span ng-show="(!$parent.$first || $first) && !$first">.</span>
+                  <span ng-show="!$first">{{intp.name}}</span>
                   <span ng-show="$parent.$first && $first">(default)</span>
                 </span>
               </small>
@@ -77,34 +84,44 @@ limitations under the License.
     <hr />
     <div>
       <p>
-        Enter comma separated users and groups in the fields. <br />
+        Enter comma separated users and groups in the fields.
+        <br />
         Empty field (*) implies anyone can do the operation.
       </p>
-      <div class="permissionsForm"
-           data-ng-model="permissions">
-        <p><span class="owners">Owners </span>
+      <div class="permissionsForm" data-ng-model="permissions">
+        <p>
+          <span class="owners">Owners</span>
           <select id="selectOwners" multiple="multiple">
             <option is-select2="false" ng-repeat="owner in permissions.owners" selected="selected">{{owner}}</option>
           </select>
           Owners can change permissions,read, run and write the note.
         </p>
-        <p><span class="writers">Writers </span>
+        <p>
+          <span class="writers">Writers</span>
           <select id="selectWriters" multiple="multiple">
-            <option is-select2="false" ng-repeat="writers in permissions.writers" selected="selected">{{writers}}</option>
+            <option is-select2="false" ng-repeat="writers in permissions.writers" selected="selected">
+              {{writers}}
+            </option>
           </select>
-            Writers can read, run and write the note.
+          Writers can read, run and write the note.
         </p>
-        <p><span class="runners">Runners </span>
+        <p>
+          <span class="runners">Runners</span>
           <select id="selectRunners" multiple="multiple">
-            <option is-select2="false" ng-repeat="runners in permissions.runners" selected="selected">{{runners}}</option>
+            <option is-select2="false" ng-repeat="runners in permissions.runners" selected="selected">
+              {{runners}}
+            </option>
           </select>
-            Runners can read and run the note.
+          Runners can read and run the note.
         </p>
-        <p><span class="readers">Readers </span>
+        <p>
+          <span class="readers">Readers</span>
           <select id="selectReaders" multiple="multiple">
-            <option is-select2="false" ng-repeat="readers in permissions.readers" selected="selected">{{readers}}</option>
+            <option is-select2="false" ng-repeat="readers in permissions.readers" selected="selected">
+              {{readers}}
+            </option>
           </select>
-            Readers can only read the note.
+          Readers can only read the note.
         </p>
       </div>
     </div>
@@ -117,24 +134,28 @@ limitations under the License.
 
   <div class="note-jump"></div>
   <div id="noteForms" ng-if="isShowNoteForms()" class="paragraph-space box">
-      <h4>
-        <div ng-controller="ElasticInputCtrl as input" class="title" style="min-height: 25px;">
-          <input type="text"
-                 pu-elastic-input
-                 style="min-width: 400px; max-width: 80%;"
-                 placeholder="Untitled form"
-                 ng-model="note.config.noteFormTitle"
-                 ng-if="input.showEditor"
-                 ng-escape="input.showEditor = false; note.config.noteFormTitle = oldTitle;"
-                 ng-blur="setNoteFormTitle(note.config.noteFormTitle); input.showEditor = false"
-                 ng-enter="setNoteFormTitle(note.config.noteFormTitle); input.showEditor = false"
-                 focus-if="input.showEditor" />
-          <div ng-show="!input.showEditor" class="notebook-form-title"
-               ng-bind-html="note.config.noteFormTitle || 'Untitled form'"
-               ng-click="input.showEditor = true; oldTitle = note.config.noteFormTitle;">
-          </div>
-        </div>
-      </h4>
+    <h4>
+      <div ng-controller="ElasticInputCtrl as input" class="title" style="min-height: 25px">
+        <input
+          type="text"
+          pu-elastic-input
+          style="min-width: 400px; max-width: 80%"
+          placeholder="Untitled form"
+          ng-model="note.config.noteFormTitle"
+          ng-if="input.showEditor"
+          ng-escape="input.showEditor = false; note.config.noteFormTitle = oldTitle;"
+          ng-blur="setNoteFormTitle(note.config.noteFormTitle); input.showEditor = false"
+          ng-enter="setNoteFormTitle(note.config.noteFormTitle); input.showEditor = false"
+          focus-if="input.showEditor"
+        />
+        <div
+          ng-show="!input.showEditor"
+          class="notebook-form-title"
+          ng-bind-html="note.config.noteFormTitle || 'Untitled form'"
+          ng-click="input.showEditor = true; oldTitle = note.config.noteFormTitle;"
+        ></div>
+      </div>
+    </h4>
     <hr />
     <div>
       <dynamic-forms
@@ -145,37 +166,47 @@ limitations under the License.
         forms="note.noteForms"
         params="note.noteParams"
         action="saveNoteForms"
-        removeaction="removeNoteForms"></dynamic-forms>
+        removeaction="removeNoteForms"
+      ></dynamic-forms>
     </div>
   </div>
 
   <!-- Include the paragraphs according to the note, pass the note to init function -->
-  <div id="{{currentParagraph.id}}_paragraphColumn_main"
-       ng-repeat="currentParagraph in note.paragraphs"
-       ng-controller="ParagraphCtrl"
-       ng-init="init(currentParagraph, note)"
-       ng-class="columnWidthClass(currentParagraph.config.colWidth)"
-       style="margin: 0; padding: 0;">
-
-       <!-- see ZEPPELIN-2806
+  <div
+    id="{{currentParagraph.id}}_paragraphColumn_main"
+    ng-repeat="currentParagraph in note.paragraphs"
+    ng-controller="ParagraphCtrl"
+    ng-init="init(currentParagraph, note)"
+    ng-class="columnWidthClass(currentParagraph.config.colWidth)"
+    style="margin: 0; padding: 0"
+  >
+    <!-- see ZEPPELIN-2806
        viewport-watch>
        -->
-    <div class="new-paragraph"
-         ng-click="insertNew('above')"
-         ng-hide="viewOnly || asIframe || revisionView"
-         ng-class="{'first-paragraph': $first}">
+    <div
+      class="new-paragraph"
+      ng-click="insertNew('above')"
+      ng-hide="viewOnly || asIframe || revisionView"
+      ng-class="{'first-paragraph': $first}"
+    >
       <h4 class="plus-sign" ng-class="{'new-paragraph-disable': isNoteRunning}">&#43; Add Paragraph</h4>
     </div>
-    <div id="{{currentParagraph.id}}_paragraphColumn"
-         ng-include src="'app/notebook/paragraph/paragraph.html'"
-         ng-class="{'paragraph-space box paragraph-margin': !asIframe, 'focused': paragraphFocused,
+    <div
+      id="{{currentParagraph.id}}_paragraphColumn"
+      ng-include
+      src="'app/notebook/paragraph/paragraph.html'"
+      ng-class="{'paragraph-space box paragraph-margin': !asIframe, 'focused': paragraphFocused,
                     'lastEmptyParagraph': !paragraph.text && !paragraph.result}"
-         ng-hide="currentParagraph.config.tableHide && viewOnly"
-         ng-dblclick="paragraphOnDoubleClick(currentParagraph.id);">
-    </div>
-    <div class="new-paragraph last-paragraph" ng-click="insertNew('below');" ng-hide="!$last || viewOnly || asIframe || revisionView">
+      ng-hide="currentParagraph.config.tableHide && viewOnly"
+      ng-dblclick="paragraphOnDoubleClick(currentParagraph.id);"
+    ></div>
+    <div
+      class="new-paragraph last-paragraph"
+      ng-click="insertNew('below');"
+      ng-hide="!$last || viewOnly || asIframe || revisionView"
+    >
       <h4 class="plus-sign" ng-class="{'new-paragraph-disable': isNoteRunning}">&#43; Add Paragraph</h4>
     </div>
   </div>
-  <div style="clear:both;height:10px"></div>
+  <div style="clear: both; height: 10px"></div>
 </div>

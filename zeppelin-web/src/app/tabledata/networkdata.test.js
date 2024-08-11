@@ -13,23 +13,23 @@
  */
 
 import NetworkData from './networkdata.js';
-import {DatasetType} from './dataset.js';
+import { DatasetType } from './dataset.js';
 
-describe('NetworkData build', function() {
+describe('NetworkData build', function () {
   let nd;
 
-  beforeEach(function() {
+  beforeEach(function () {
     nd = new NetworkData();
   });
 
-  it('should initialize the default value', function() {
+  it('should initialize the default value', function () {
     expect(nd.columns.length).toBe(0);
     expect(nd.rows.length).toBe(0);
     expect(nd.graph).toEqual({});
   });
 
-  it('should able to create NetowkData from paragraph result', function() {
-    let jsonExpected = {nodes: [{id: 1}, {id: 2}], edges: [{source: 2, target: 1, id: 1}]};
+  it('should able to create NetowkData from paragraph result', function () {
+    let jsonExpected = { nodes: [{ id: 1 }, { id: 2 }], edges: [{ source: 2, target: 1, id: 1 }] };
     nd.loadParagraphResult({
       type: DatasetType.NETWORK,
       msg: JSON.stringify(jsonExpected),
@@ -44,9 +44,14 @@ describe('NetworkData build', function() {
     expect(nd.graph.edges[0].target).toBe(jsonExpected.edges[0].target);
   });
 
-  it('should able to show data fields source and target', function() {
-    let jsonExpected = {nodes: [{id: 1, data: {source: 'Source'}}, {id: 2, data: {target: 'Target'}}],
-      edges: [{source: 2, target: 1, id: 1, data: {source: 'Source Edge Data', target: 'Target Edge Data'}}]};
+  it('should able to show data fields source and target', function () {
+    let jsonExpected = {
+      nodes: [
+        { id: 1, data: { source: 'Source' } },
+        { id: 2, data: { target: 'Target' } },
+      ],
+      edges: [{ source: 2, target: 1, id: 1, data: { source: 'Source Edge Data', target: 'Target Edge Data' } }],
+    };
     nd.loadParagraphResult({
       type: DatasetType.NETWORK,
       msg: JSON.stringify(jsonExpected),

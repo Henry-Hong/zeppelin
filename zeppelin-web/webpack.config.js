@@ -26,12 +26,12 @@ var InsertLiveReloadPlugin = function InsertLiveReloadPlugin(options) {
   this.options = options || {};
   this.port = this.options.port || 35729;
   this.hostname = this.options.hostname || 'localhost';
-}
+};
 var express = require('express');
 var stringReplacePlugin = require('string-replace-webpack-plugin');
 
 InsertLiveReloadPlugin.prototype.autoloadJs = function autoloadJs() {
-  return
+  return;
 };
 
 InsertLiveReloadPlugin.prototype.scriptTag = function scriptTag(source) {
@@ -47,7 +47,7 @@ InsertLiveReloadPlugin.prototype.scriptTag = function scriptTag(source) {
     '  el.src = "http://' + this.hostname + ':' + this.port + '/livereload.js";',
     '  document.getElementsByTagName("head")[0].appendChild(el);',
     '}());',
-    ''
+    '',
   ].join('\n');
   return reloadScriptTag + source;
 };
@@ -67,10 +67,10 @@ InsertLiveReloadPlugin.prototype.apply = function apply(compiler) {
  */
 var ENV = process.env.npm_lifecycle_event;
 var isTest = ENV === 'test';
-var isProd = ENV.startsWith('build')
-var isCI = ENV === 'build:ci'
+var isProd = ENV.startsWith('build');
+var isCI = ENV === 'build:ci';
 
-module.exports = function makeWebpackConfig () {
+module.exports = (function makeWebpackConfig() {
   /**
    * Config
    * Reference: http://webpack.github.io/docs/configuration.html
@@ -84,9 +84,11 @@ module.exports = function makeWebpackConfig () {
    * Should be an empty object if it's generating a test build
    * Karma will set this when it's a test build
    */
-  config.entry = isTest ? {} : {
-    app: './src/index.js'
-  };
+  config.entry = isTest
+    ? {}
+    : {
+        app: './src/index.js',
+      };
 
   var serverPort = process.env.SERVER_PORT || 8080;
   var webPort = process.env.WEB_PORT || 9000;
@@ -97,22 +99,24 @@ module.exports = function makeWebpackConfig () {
    * Should be an empty object if it's generating a test build
    * Karma will handle setting it up for you when it's a test build
    */
-  config.output = isTest ? {} : {
-    // Absolute output directory
-    path: __dirname + '/dist',
+  config.output = isTest
+    ? {}
+    : {
+        // Absolute output directory
+        path: __dirname + '/dist',
 
-    // Output path from the view of the page
-    // Uses webpack-dev-server in development
-    publicPath: isProd ? '' : 'http://localhost:' + webPort + '/',
+        // Output path from the view of the page
+        // Uses webpack-dev-server in development
+        publicPath: isProd ? '' : 'http://localhost:' + webPort + '/',
 
-    // Filename for entry points
-    // Only adds hash in build mode
-    filename: isProd ? '[name].[hash].js' : '[name].bundle.js',
+        // Filename for entry points
+        // Only adds hash in build mode
+        filename: isProd ? '[name].[hash].js' : '[name].bundle.js',
 
-    // Filename for non-entry points
-    // Only adds hash in build mode
-    chunkFilename: isProd ? '[name].[hash].js' : '[name].bundle.js'
-  };
+        // Filename for non-entry points
+        // Only adds hash in build mode
+        chunkFilename: isProd ? '[name].[hash].js' : '[name].bundle.js',
+      };
 
   /**
    * Devtool
@@ -137,73 +141,81 @@ module.exports = function makeWebpackConfig () {
 
   // Initialize module
   config.module = {
-    rules: [{
-      // headroom 0.9.3 doesn't work with webpack
-      // https://github.com/WickyNilliams/headroom.js/issues/213#issuecomment-281106943
-      test: require.resolve('headroom.js'),
-      use: 'imports-loader?this=>window,define=>false,exports=>false'
-    }, {
-      // JS LOADER
-      // Reference: https://github.com/babel/babel-loader
-      // Transpile .js files using babel-loader
-      // Compiles ES6 and ES7 into ES5 code
-      test: /\.(js|jsx)$/,
-      use: ['ng-annotate-loader', 'babel-loader'],
-      exclude: /(node_modules)/,
-    }, {
-      // CSS LOADER
-      // Reference: https://github.com/webpack/css-loader
-      // Allow loading css through js
-      //
-      // Reference: https://github.com/postcss/postcss-loader
-      // Postprocess your css with PostCSS plugins
-      test: /\.(sa|sc|c)ss$/,
-      // Reference: https://github.com/webpack-contrib/mini-css-extract-plugin
-      // Extract css files in production builds
-      //
-      // Use style-loader in development.
-      use: [
-        !isProd ? 'style-loader' : MiniCssExtractPlugin.loader,
-        'css-loader',
-        {
-          loader: 'postcss-loader',
-          options: {
-            ident: 'postcss',
-            plugins: [
-              require('autoprefixer')()
-            ]
-          }
-        }]
-    }, {
-      // ASSET LOADER
-      // Reference: https://github.com/webpack/file-loader
-      // Copy png, jpg, jpeg, gif, svg, woff, woff2, ttf, eot files to output
-      // Rename the file using the asset hash
-      // Pass along the updated reference to your code
-      // You can add here any file extension you want to get copied to your output
-      test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-      use: 'file-loader'
-    }, {
-      // HTML LOADER
-      // Reference: https://github.com/webpack/raw-loader
-      // Allow loading html through js
-      test: /\.html$/,
-      use: 'raw-loader'
-    }, {
-      // STRING REPLACE PLUGIN
-      // reference: https://www.npmjs.com/package/string-replace-webpack-plugin
-      // Allow for arbitrary strings to be replaced as part of the module build process
-      // Configure replacements for file patterns
-      test: /index.html$/,
-      use: stringReplacePlugin.replace({
-        replacements: [{
-          pattern: /WEB_PORT/ig,
-          replacement: function (match, p1, offset, string) {
-            return webPort;
-          }
-        }
-      ]})
-    }],
+    rules: [
+      {
+        // headroom 0.9.3 doesn't work with webpack
+        // https://github.com/WickyNilliams/headroom.js/issues/213#issuecomment-281106943
+        test: require.resolve('headroom.js'),
+        use: 'imports-loader?this=>window,define=>false,exports=>false',
+      },
+      {
+        // JS LOADER
+        // Reference: https://github.com/babel/babel-loader
+        // Transpile .js files using babel-loader
+        // Compiles ES6 and ES7 into ES5 code
+        test: /\.(js|jsx)$/,
+        use: ['ng-annotate-loader', 'babel-loader'],
+        exclude: /(node_modules)/,
+      },
+      {
+        // CSS LOADER
+        // Reference: https://github.com/webpack/css-loader
+        // Allow loading css through js
+        //
+        // Reference: https://github.com/postcss/postcss-loader
+        // Postprocess your css with PostCSS plugins
+        test: /\.(sa|sc|c)ss$/,
+        // Reference: https://github.com/webpack-contrib/mini-css-extract-plugin
+        // Extract css files in production builds
+        //
+        // Use style-loader in development.
+        use: [
+          !isProd ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: [require('autoprefixer')()],
+            },
+          },
+        ],
+      },
+      {
+        // ASSET LOADER
+        // Reference: https://github.com/webpack/file-loader
+        // Copy png, jpg, jpeg, gif, svg, woff, woff2, ttf, eot files to output
+        // Rename the file using the asset hash
+        // Pass along the updated reference to your code
+        // You can add here any file extension you want to get copied to your output
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+        use: 'file-loader',
+      },
+      {
+        // HTML LOADER
+        // Reference: https://github.com/webpack/raw-loader
+        // Allow loading html through js
+        test: /\.html$/,
+        use: 'raw-loader',
+      },
+      {
+        // STRING REPLACE PLUGIN
+        // reference: https://www.npmjs.com/package/string-replace-webpack-plugin
+        // Allow for arbitrary strings to be replaced as part of the module build process
+        // Configure replacements for file patterns
+        test: /index.html$/,
+        use: stringReplacePlugin.replace({
+          replacements: [
+            {
+              pattern: /WEB_PORT/gi,
+              replacement: function (match, p1, offset, string) {
+                return webPort;
+              },
+            },
+          ],
+        }),
+      },
+    ],
   };
 
   /**
@@ -212,11 +224,11 @@ module.exports = function makeWebpackConfig () {
    * List: http://webpack.github.io/docs/list-of-plugins.html
    */
   config.plugins = [
-      // Reference: https://github.com/webpack-contrib/mini-css-extract-plugin
-      new MiniCssExtractPlugin({
-        filename: !isProd ? '[name].css' : '[name].[hash].css',
-        chunkFilename: !isProd ? '[id].css' : '[id].[hash].css'
-      })
+    // Reference: https://github.com/webpack-contrib/mini-css-extract-plugin
+    new MiniCssExtractPlugin({
+      filename: !isProd ? '[name].css' : '[name].[hash].css',
+      chunkFilename: !isProd ? '[id].css' : '[id].[hash].css',
+    }),
   ];
 
   // Skip rendering index.html in test mode
@@ -226,7 +238,7 @@ module.exports = function makeWebpackConfig () {
     config.plugins.push(
       new HtmlWebpackPlugin({
         template: './src/index.html',
-        inject: 'body'
+        inject: 'body',
       }),
       // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
       new webpack.DefinePlugin({
@@ -235,10 +247,10 @@ module.exports = function makeWebpackConfig () {
           SERVER_PORT: serverPort,
           WEB_PORT: webPort,
           PROD: isProd,
-          BUILD_CI: (isCI) ? JSON.stringify(true) : JSON.stringify(false)
-        }
-      })
-    )
+          BUILD_CI: isCI ? JSON.stringify(true) : JSON.stringify(false),
+        },
+      }),
+    );
   }
 
   if (isTest) {
@@ -248,28 +260,28 @@ module.exports = function makeWebpackConfig () {
         test: /\.js$/,
         exclude: /(node_modules|\.test\.js)/,
         loader: 'istanbul-instrumenter',
-        enforce: 'post'
-      }
-    ]
+        enforce: 'post',
+      },
+    ];
   }
 
   // Add build specific plugins
   if (isProd) {
     config.optimization = {
       noEmitOnErrors: true,
-      minimize: true
-    }
+      minimize: true,
+    };
     config.plugins.push(
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
-      new CopyWebpackPlugin([])
-    )
+      new CopyWebpackPlugin([]),
+    );
   } else {
     config.plugins.push(
       new InsertLiveReloadPlugin(),
       // reference: https://www.npmjs.com/package/string-replace-webpack-plugin
-      new stringReplacePlugin()
-    )
+      new stringReplacePlugin(),
+    );
   }
 
   /**
@@ -284,7 +296,7 @@ module.exports = function makeWebpackConfig () {
     hot: true,
     progress: true,
     contentBase: './src',
-    before: function(app) {
+    before: function (app) {
       app.use('**/node_modules/', express.static(path.resolve(__dirname, './node_modules/')));
       app.use('**/app/', express.static(path.resolve(__dirname, './src/app/')));
       app.use('**/assets/', express.static(path.resolve(__dirname, './src/assets/')));
@@ -295,4 +307,4 @@ module.exports = function makeWebpackConfig () {
   };
 
   return config;
-}();
+})();

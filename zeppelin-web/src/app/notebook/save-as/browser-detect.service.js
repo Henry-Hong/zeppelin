@@ -15,7 +15,7 @@
 angular.module('zeppelinWebApp').service('browserDetectService', BrowserDetectService);
 
 function BrowserDetectService() {
-  this.detectIE = function() {
+  this.detectIE = function () {
     let ua = window.navigator.userAgent;
     let msie = ua.indexOf('MSIE ');
     if (msie > 0) {

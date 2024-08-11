@@ -17,7 +17,7 @@ angular.module('zeppelinWebApp').service('saveAsService', SaveAsService);
 function SaveAsService(browserDetectService) {
   'ngInject';
 
-  this.saveAs = function(content, filename, extension) {
+  this.saveAs = function (content, filename, extension) {
     let BOM = '\uFEFF';
     if (browserDetectService.detectIE()) {
       angular.element('body').append('<iframe id="SaveAsId" style="display: none"></iframe>');
@@ -42,7 +42,7 @@ function SaveAsService(browserDetectService) {
       let binaryData = [];
       binaryData.push(BOM);
       binaryData.push(content);
-      let blob = new Blob(binaryData, {type: 'octet/stream'});
+      let blob = new Blob(binaryData, { type: 'octet/stream' });
       const url = window.URL.createObjectURL(blob);
       let a = document.createElement('a');
       document.body.appendChild(a);

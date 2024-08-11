@@ -27,7 +27,7 @@
   padding: 10px 15px 15px 15px;
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .job-manager-header .header {
@@ -59,7 +59,6 @@
   margin-right: 5px;
 }
 
-
 #job-manager-header .job-search-tool .date-sort-button {
   min-width: 180px;
 }
@@ -67,12 +66,12 @@
 .job-search-tool .dropdown-text-desc {
   color: gray;
   font-weight: 400;
-  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .job-search-tool .dropdown-text-value {
   margin-left: 2px;
-  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .search-tool-dropdown-content > li > a {

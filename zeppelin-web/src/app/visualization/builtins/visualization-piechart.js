@@ -43,14 +43,16 @@ export default class PiechartVisualization extends Nvd3ChartVisualization {
       pivot.values,
       true,
       false,
-      false);
+      false,
+    );
     const d = d3Data.d3g;
 
     let generateLabel;
     // data is grouped
     if (pivot.groups && pivot.groups.length > 0) {
       generateLabel = (suffix, prefix) => `${prefix}.${suffix}`;
-    } else { // data isn't grouped
+    } else {
+      // data isn't grouped
       generateLabel = (suffix) => suffix;
     }
 
@@ -63,7 +65,7 @@ export default class PiechartVisualization extends Nvd3ChartVisualization {
     // the map function returns d3g as a nested array
     // [].concat flattens it, http://stackoverflow.com/a/10865042/5154397
     d3g = [].concat.apply([], d3g); // eslint-disable-line prefer-spread
-    super.render({d3g: d3g});
+    super.render({ d3g: d3g });
   }
 
   /**
@@ -75,13 +77,14 @@ export default class PiechartVisualization extends Nvd3ChartVisualization {
   }
 
   configureChart(chart) {
-    chart.x(function(d) {
-      return d.label;
-    })
-    .y(function(d) {
-      return d.value;
-    })
-    .showLabels(false)
-    .showTooltipPercent(true);
+    chart
+      .x(function (d) {
+        return d.label;
+      })
+      .y(function (d) {
+        return d.value;
+      })
+      .showLabels(false)
+      .showTooltipPercent(true);
   }
 }

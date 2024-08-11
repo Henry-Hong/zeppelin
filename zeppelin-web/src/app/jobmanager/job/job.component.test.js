@@ -1,19 +1,19 @@
-import {ParagraphStatus} from '../../notebook/paragraph/paragraph.status';
+import { ParagraphStatus } from '../../notebook/paragraph/paragraph.status';
 
 describe('JobComponent', () => {
   let $componentController;
 
   beforeEach(angular.mock.module('zeppelinWebApp'));
-  beforeEach(angular.mock.inject((_$componentController_) => {
-    $componentController = _$componentController_;
-  }));
+  beforeEach(
+    angular.mock.inject((_$componentController_) => {
+      $componentController = _$componentController_;
+    }),
+  );
 
   it('should get progress when there is a finished paragraph', () => {
-    const paragraphs = [
-      {status: ParagraphStatus.FINISHED},
-    ];
+    const paragraphs = [{ status: ParagraphStatus.FINISHED }];
     const mockNote = createMockNote(paragraphs);
-    const bindings = {note: mockNote};
+    const bindings = { note: mockNote };
 
     const ctrl = $componentController('job', null, bindings);
     expect(ctrl).toBeDefined();
@@ -23,12 +23,9 @@ describe('JobComponent', () => {
   });
 
   it('should get progress when there is pending and finished paragraphs', () => {
-    const paragraphs = [
-      {status: ParagraphStatus.PENDING},
-      {status: ParagraphStatus.FINISHED},
-    ];
+    const paragraphs = [{ status: ParagraphStatus.PENDING }, { status: ParagraphStatus.FINISHED }];
     const mockNote = createMockNote(paragraphs);
-    const bindings = {note: mockNote};
+    const bindings = { note: mockNote };
 
     const ctrl = $componentController('job', null, bindings);
 
@@ -37,9 +34,9 @@ describe('JobComponent', () => {
   });
 
   it('should get proper job type icons', () => {
-    const paragraphs = [{status: ParagraphStatus.PENDING}];
+    const paragraphs = [{ status: ParagraphStatus.PENDING }];
     const mockNote = createMockNote(paragraphs);
-    const bindings = {note: mockNote};
+    const bindings = { note: mockNote };
 
     const ctrl = $componentController('job', null, bindings);
 

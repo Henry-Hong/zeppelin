@@ -25,8 +25,8 @@ function CodeEditorDirective($templateRequest, $compile) {
       onLoad: '=onLoad',
       revisionView: '=revisionView',
     },
-    link: function(scope, element, attrs, controller) {
-      $templateRequest('app/notebook/paragraph/code-editor/code-editor.directive.html').then(function(editorHtml) {
+    link: function (scope, element, attrs, controller) {
+      $templateRequest('app/notebook/paragraph/code-editor/code-editor.directive.html').then(function (editorHtml) {
         let editor = angular.element(editorHtml);
         editor.attr('id', scope.paragraphId + '_editor');
         element.append(editor);

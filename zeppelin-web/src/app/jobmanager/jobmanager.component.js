@@ -13,12 +13,13 @@
  */
 
 import './job/job.component';
-import {JobManagerFilter} from './jobmanager.filter';
-import {JobManagerService} from './jobmanager.service';
+import { JobManagerFilter } from './jobmanager.filter';
+import { JobManagerService } from './jobmanager.service';
 
-import {getJobIconByStatus, getJobColorByStatus} from './job-status';
+import { getJobIconByStatus, getJobColorByStatus } from './job-status';
 
-angular.module('zeppelinWebApp')
+angular
+  .module('zeppelinWebApp')
   .controller('JobManagerCtrl', JobManagerController)
   .filter('JobManager', JobManagerFilter)
   .service('JobManagerService', JobManagerService);
@@ -58,17 +59,17 @@ function JobManagerController($scope, ngToast, JobManagerFilter, JobManagerServi
 
   /** functions */
 
-  $scope.setJobDateSorter = function(dateSorter) {
+  $scope.setJobDateSorter = function (dateSorter) {
     $scope.sorter.currentDateSorter = dateSorter;
   };
 
-  $scope.getJobsInCurrentPage = function(jobs) {
+  $scope.getJobsInCurrentPage = function (jobs) {
     const cp = $scope.pagination.currentPage;
     const itp = $scope.pagination.itemsPerPage;
-    return jobs.slice((cp - 1) * itp, (cp * itp));
+    return jobs.slice((cp - 1) * itp, cp * itp);
   };
 
-  let asyncNotebookJobFilter = function(jobs, filterConfig) {
+  let asyncNotebookJobFilter = function (jobs, filterConfig) {
     return new Promise((resolve, reject) => {
       // eslint-disable-next-line new-cap
       $scope.filteredJobs = JobManagerFilter(jobs, filterConfig);
@@ -76,16 +77,15 @@ function JobManagerController($scope, ngToast, JobManagerFilter, JobManagerServi
     });
   };
 
-  $scope.$watch('sorter.currentDateSorter', function() {
-    $scope.filterConfig.isSortByAsc =
-      $scope.sorter.currentDateSorter === JobDateSorter.OLDEST_UPDATED;
+  $scope.$watch('sorter.currentDateSorter', function () {
+    $scope.filterConfig.isSortByAsc = $scope.sorter.currentDateSorter === JobDateSorter.OLDEST_UPDATED;
     asyncNotebookJobFilter($scope.jobs, $scope.filterConfig);
   });
 
   $scope.getJobIconByStatus = getJobIconByStatus;
   $scope.getJobColorByStatus = getJobColorByStatus;
 
-  $scope.filterJobs = function(jobs, filterConfig) {
+  $scope.filterJobs = function (jobs, filterConfig) {
     asyncNotebookJobFilter(jobs, filterConfig)
       .then(() => {
         $scope.isFilterLoaded = true;
@@ -95,15 +95,14 @@ function JobManagerController($scope, ngToast, JobManagerFilter, JobManagerServi
       });
   };
 
-  $scope.filterValueToName = function(filterValue, maxStringLength) {
+  $scope.filterValueToName = function (filterValue, maxStringLength) {
     if (typeof $scope.defaultInterpreters === 'undefined') {
       return;
     }
 
     let index = $scope.defaultInterpreters.findIndex((intp) => intp.value === filterValue);
     if (typeof $scope.defaultInterpreters[index].name !== 'undefined') {
-      if (typeof maxStringLength !== 'undefined' &&
-        maxStringLength > $scope.defaultInterpreters[index].name) {
+      if (typeof maxStringLength !== 'undefined' && maxStringLength > $scope.defaultInterpreters[index].name) {
         return $scope.defaultInterpreters[index].name.substr(0, maxStringLength - 3) + '...';
       }
       return $scope.defaultInterpreters[index].name;
@@ -112,21 +111,19 @@ function JobManagerController($scope, ngToast, JobManagerFilter, JobManagerServi
     }
   };
 
-  $scope.setFilterValue = function(filterValue) {
+  $scope.setFilterValue = function (filterValue) {
     $scope.filterConfig.interpreterFilterValue = filterValue;
     $scope.filterJobs($scope.jobs, $scope.filterConfig);
   };
 
-  $scope.setJobs = function(jobs) {
+  $scope.setJobs = function (jobs) {
     $scope.jobs = jobs;
-    let interpreters = $scope.jobs
-      .filter((j) => typeof j.interpreter !== 'undefined')
-      .map((j) => j.interpreter);
+    let interpreters = $scope.jobs.filter((j) => typeof j.interpreter !== 'undefined').map((j) => j.interpreter);
     interpreters = [...new Set(interpreters)]; // remove duplicated interpreters
 
-    $scope.defaultInterpreters = [{name: 'ALL', value: '*'}];
+    $scope.defaultInterpreters = [{ name: 'ALL', value: '*' }];
     for (let i = 0; i < interpreters.length; i++) {
-      $scope.defaultInterpreters.push({name: interpreters[i], value: interpreters[i]});
+      $scope.defaultInterpreters.push({ name: interpreters[i], value: interpreters[i] });
     }
   };
 
@@ -135,7 +132,7 @@ function JobManagerController($scope, ngToast, JobManagerFilter, JobManagerServi
     JobManagerService.subscribeSetJobs($scope, setJobsCallback);
     JobManagerService.subscribeUpdateJobs($scope, updateJobsCallback);
 
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', function () {
       JobManagerService.disconnect();
     });
   }

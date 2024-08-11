@@ -14,8 +14,8 @@
 
 import moment from 'moment';
 
-import {ParagraphStatus} from '../../notebook/paragraph/paragraph.status';
-import {getJobColorByStatus, getJobIconByStatus} from '../job-status';
+import { ParagraphStatus } from '../../notebook/paragraph/paragraph.status';
+import { getJobColorByStatus, getJobIconByStatus } from '../job-status';
 
 import jobTemplate from './job.html';
 import './job.css';
@@ -55,12 +55,10 @@ class JobController {
 
         const noteId = this.getNoteId();
         // if the request is handled successfully, the job page will get updated using websocket
-        this.JobManagerService.sendRunJobRequest(noteId)
-          .catch((response) => {
-            let message = (response.data && response.data.message)
-              ? response.data.message : 'SERVER ERROR';
-            this.showErrorDialog('Execution Failure', message);
-          });
+        this.JobManagerService.sendRunJobRequest(noteId).catch((response) => {
+          let message = response.data && response.data.message ? response.data.message : 'SERVER ERROR';
+          this.showErrorDialog('Execution Failure', message);
+        });
       },
     });
   }
@@ -77,12 +75,10 @@ class JobController {
 
         const noteId = this.getNoteId();
         // if the request is handled successfully, the job page will get updated using websocket
-        this.JobManagerService.sendStopJobRequest(noteId)
-          .catch((response) => {
-            let message = (response.data && response.data.message)
-              ? response.data.message : 'SERVER ERROR';
-            this.showErrorDialog('Stop Failure', message);
-          });
+        this.JobManagerService.sendStopJobRequest(noteId).catch((response) => {
+          let message = response.data && response.data.message ? response.data.message : 'SERVER ERROR';
+          this.showErrorDialog('Stop Failure', message);
+        });
       },
     });
   }
@@ -104,13 +100,11 @@ class JobController {
   }
 
   getInterpreterName() {
-    return typeof this.note.interpreter === 'undefined'
-      ? 'interpreter is not set' : this.note.interpreter;
+    return typeof this.note.interpreter === 'undefined' ? 'interpreter is not set' : this.note.interpreter;
   }
 
   getInterpreterNameStyle() {
-    return typeof this.note.interpreter === 'undefined'
-      ? {color: 'gray'} : {color: 'black'};
+    return typeof this.note.interpreter === 'undefined' ? { color: 'gray' } : { color: 'black' };
   }
 
   getJobTypeIcon() {
@@ -141,7 +135,7 @@ class JobController {
 
     let totalCount = paragraphStatuses.length;
     let runningCount = runningOrFinishedParagraphs.length;
-    let result = Math.ceil(runningCount / totalCount * 100);
+    let result = Math.ceil((runningCount / totalCount) * 100);
     result = isNaN(result) ? 0 : result;
 
     return `${result}%`;
@@ -160,7 +154,4 @@ export const JobComponent = {
   controller: JobController,
 };
 
-export const JobModule = angular
-  .module('zeppelinWebApp')
-  .component('job', JobComponent)
-  .name;
+export const JobModule = angular.module('zeppelinWebApp').component('job', JobComponent).name;

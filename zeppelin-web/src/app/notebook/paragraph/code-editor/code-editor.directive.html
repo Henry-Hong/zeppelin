@@ -12,10 +12,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class="editor"
-     ui-ace="{ onLoad : onLoad, require : ['ace/ext/language_tools'] }"
-     ng-model="paragraph.text"
-     ng-class="{'paragraph-disable': paragraph.status == 'RUNNING' || paragraph.status == 'PENDING' || revisionView === true,
-           'paragraph-text--dirty' : dirtyText !== originalText && dirtyText !== undefined}">
-
-</div>
+<div
+  class="editor"
+  ui-ace="{ onLoad : onLoad, require : ['ace/ext/language_tools'] }"
+  ng-model="paragraph.text"
+  ng-class="{'paragraph-disable': paragraph.status == 'RUNNING' || paragraph.status == 'PENDING' || revisionView === true,
+           'paragraph-text--dirty' : dirtyText !== originalText && dirtyText !== undefined}"
+></div>

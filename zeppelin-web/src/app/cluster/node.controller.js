@@ -29,36 +29,37 @@ function NodeCtrl($scope, $routeParams, $http, baseUrlSrv, ngToast) {
   } else {
     $scope.searchNode = '';
   }
-  $scope.filteredProcesses=$scope.intpProcesses;
-  $scope.nodeFilter = function(intpProcess) {
+  $scope.filteredProcesses = $scope.intpProcesses;
+  $scope.nodeFilter = function (intpProcess) {
     return intpProcess.properties.INTP_PROCESS_NAME.indexOf($scope.searchNode) !== -1;
   };
   $scope._ = _;
   ngToast.dismiss();
 
-  $scope.getProgressInCurrentPage = function(pros) {
+  $scope.getProgressInCurrentPage = function (pros) {
     $scope.filteredProcesses = pros;
     const cp = $scope.pagination.currentPage;
     const itp = $scope.pagination.itemsPerPage;
-    return pros.slice((cp - 1) * itp, (cp * itp));
+    return pros.slice((cp - 1) * itp, cp * itp);
   };
 
-  let init = function() {
-    $http.get(baseUrlSrv.getRestApiBase() + '/cluster/node/' + $scope.nodeName + '/' + $scope.intpName)
-      .success(function(data, status, headers, config) {
+  let init = function () {
+    $http
+      .get(baseUrlSrv.getRestApiBase() + '/cluster/node/' + $scope.nodeName + '/' + $scope.intpName)
+      .success(function (data, status, headers, config) {
         $scope.intpProcesses = data.body;
-        console.log('scope.intpProcesses.length='+$scope.intpProcesses.length);
-        console.log('scope.intpProcesses='+$scope.intpProcesses);
+        console.log('scope.intpProcesses.length=' + $scope.intpProcesses.length);
+        console.log('scope.intpProcesses=' + $scope.intpProcesses);
         console.log(JSON.stringify($scope.intpProcesses));
       })
-      .error(function(data, status, headers, config) {
+      .error(function (data, status, headers, config) {
         if (status === 401) {
           ngToast.danger({
-            content: 'You don\'t have permission on this page',
+            content: "You don't have permission on this page",
             verticalPosition: 'bottom',
             timeout: '3000',
           });
-          setTimeout(function() {
+          setTimeout(function () {
             window.location = baseUrlSrv.getBase();
           }, 3000);
         }

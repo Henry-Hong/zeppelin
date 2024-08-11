@@ -27,7 +27,7 @@
   padding: 10px 15px 15px 15px;
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .cluster-manager-header .header {
@@ -59,7 +59,6 @@
   margin-right: 5px;
 }
 
-
 #cluster-manager-header .cluster-search-tool .date-sort-button {
   min-width: 180px;
 }
@@ -67,12 +66,12 @@
 .cluster-search-tool .dropdown-text-desc {
   color: gray;
   font-weight: 400;
-  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .cluster-search-tool .dropdown-text-value {
   margin-left: 2px;
-  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .search-tool-dropdown-content > li > a {
@@ -136,15 +135,14 @@
   font-size: 10px;
 }
 
-
 /*
   node Controls CSS
 */
 
 .node .runControl {
   font-size: 1px;
-  color: #AAAAAA;
-  height:4px;
+  color: #aaaaaa;
+  height: 4px;
   margin: 0px 0px 0px 0px;
 }
 
@@ -161,7 +159,7 @@
 }
 
 .node .control {
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.85);
   float: right;
   color: #999;
   margin-top: 1px;
@@ -186,31 +184,44 @@
 
 .node .control .node-control-btn {
   cursor: pointer;
-  color: #3071A9;
+  color: #3071a9;
 }
 
-@-webkit-keyframes spinnerRotateAnimation
-{
-  from{-webkit-transform:rotate(0deg);}
-  to{-webkit-transform:rotate(360deg);}
+@-webkit-keyframes spinnerRotateAnimation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
-@-moz-keyframes spinnerRotateAnimation
-{
-  from{-moz-transform:rotate(0deg);}
-  to{-moz-transform:rotate(360deg);}
+@-moz-keyframes spinnerRotateAnimation {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
 }
-@-ms-keyframes spinnerRotateAnimation
-{
-  from{-ms-transform:rotate(0deg);}
-  to{-ms-transform:rotate(360deg);}
+@-ms-keyframes spinnerRotateAnimation {
+  from {
+    -ms-transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+  }
 }
 
 @keyframes spinnerRotateAnimation {
-  from {transform: rotate(0deg);}
-  to{transform: rotate(360deg);}
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.spinAnimation{
+.spinAnimation {
   -webkit-animation-name: spinnerRotateAnimation;
   -webkit-animation-duration: 1s;
   -webkit-animation-iteration-count: infinite;

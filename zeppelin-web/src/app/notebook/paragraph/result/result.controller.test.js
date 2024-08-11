@@ -1,12 +1,10 @@
-describe('Controller: ResultCtrl', function() {
+describe('Controller: ResultCtrl', function () {
   beforeEach(angular.mock.module('zeppelinWebApp'));
 
   let scope;
   let controller;
-  let resultMock = {
-  };
-  let configMock = {
-  };
+  let resultMock = {};
+  let configMock = {};
   let paragraphMock = {
     id: 'p1',
     results: {
@@ -21,7 +19,7 @@ describe('Controller: ResultCtrl', function() {
     },
   };
 
-  beforeEach(inject(function($controller, $rootScope) {
+  beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
     scope.$parent = $rootScope.$new(true, $rootScope);
     scope.$parent.paragraph = paragraphMock;
@@ -34,7 +32,7 @@ describe('Controller: ResultCtrl', function() {
     scope.init(resultMock, configMock, paragraphMock, 1);
   }));
 
-  it('scope should be initialized', function() {
+  it('scope should be initialized', function () {
     expect(scope).toBeDefined();
     expect(controller).toBeDefined();
   });

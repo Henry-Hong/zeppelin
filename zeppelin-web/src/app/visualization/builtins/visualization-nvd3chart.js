@@ -49,7 +49,9 @@ export default class Nvd3ChartVisualization extends Visualization {
       if (d3g[0].values.length > numberOfDataThreshold) {
         animationDuration = 0;
       }
-    } catch (err) { /** ignore */ }
+    } catch (err) {
+      /** ignore */
+    }
 
     d3.select('#' + this.targetEl[0].id + ' svg')
       .attr('height', height)
@@ -75,7 +77,8 @@ export default class Nvd3ChartVisualization extends Visualization {
   customAbbrevFormatter(x) {
     let s = d3.format('.3s')(x);
     switch (s[s.length - 1]) {
-      case 'G': return s.slice(0, -1) + 'B';
+      case 'G':
+        return s.slice(0, -1) + 'B';
     }
     return s;
   }
@@ -85,7 +88,8 @@ export default class Nvd3ChartVisualization extends Visualization {
   }
 
   xAxisTickFormat(d, xLabels) {
-    if (xLabels[d] && (isNaN(parseFloat(xLabels[d])) || !isFinite(xLabels[d]))) { // to handle string type xlabel
+    if (xLabels[d] && (isNaN(parseFloat(xLabels[d])) || !isFinite(xLabels[d]))) {
+      // to handle string type xlabel
       return xLabels[d];
     } else {
       return d;
@@ -99,13 +103,12 @@ export default class Nvd3ChartVisualization extends Visualization {
     return this.groupedThousandsWith3DigitsFormatter(d);
   }
 
-  d3DataFromPivot(
-    schema, rows, keys, groups, values, allowTextXAxis, fillMissingValues, multiBarChart) {
+  d3DataFromPivot(schema, rows, keys, groups, values, allowTextXAxis, fillMissingValues, multiBarChart) {
     let self = this;
     // construct table data
     let d3g = [];
 
-    let concat = function(o, n) {
+    let concat = function (o, n) {
       if (!o) {
         return n;
       } else {
@@ -113,16 +116,16 @@ export default class Nvd3ChartVisualization extends Visualization {
       }
     };
 
-    const getSchemaUnderKey = function(key, s) {
+    const getSchemaUnderKey = function (key, s) {
       for (let c in key.children) {
-        if(key.children.hasOwnProperty(c)) {
+        if (key.children.hasOwnProperty(c)) {
           s[c] = {};
           getSchemaUnderKey(key.children[c], s[c]);
         }
       }
     };
 
-    const traverse = function(sKey, s, rKey, r, func, rowName, rowValue, colName) {
+    const traverse = function (sKey, s, rKey, r, func, rowName, rowValue, colName) {
       // console.log("TRAVERSE sKey=%o, s=%o, rKey=%o, r=%o, rowName=%o, rowValue=%o, colName=%o", sKey, s, rKey, r, rowName, rowValue, colName);
 
       if (s.type === 'key') {
@@ -130,7 +133,7 @@ export default class Nvd3ChartVisualization extends Visualization {
         rowValue = concat(rowValue, rKey);
       } else if (s.type === 'group') {
         colName = concat(colName, rKey);
-      } else if (s.type === 'value' && sKey === rKey || valueOnly) {
+      } else if ((s.type === 'value' && sKey === rKey) || valueOnly) {
         colName = concat(colName, rKey);
         func(rowName, rowValue, colName, r);
       }
@@ -151,8 +154,8 @@ export default class Nvd3ChartVisualization extends Visualization {
       }
     };
 
-    const valueOnly = (keys.length === 0 && groups.length === 0 && values.length > 0);
-    let noKey = (keys.length === 0);
+    const valueOnly = keys.length === 0 && groups.length === 0 && values.length > 0;
+    let noKey = keys.length === 0;
     let isMultiBarChart = multiBarChart;
 
     let sKey = Object.keys(schema)[0];
@@ -165,7 +168,7 @@ export default class Nvd3ChartVisualization extends Visualization {
 
     for (let k in rows) {
       if (rows.hasOwnProperty(k)) {
-        traverse(sKey, schema[sKey], k, rows[k], function(rowName, rowValue, colName, value) {
+        traverse(sKey, schema[sKey], k, rows[k], function (rowName, rowValue, colName, value) {
           // console.log("RowName=%o, row=%o, col=%o, value=%o", rowName, rowValue, colName, value);
           if (rowNameIndex[rowValue] === undefined) {
             rowIndexValue[rowIdx] = rowValue;
@@ -183,11 +186,11 @@ export default class Nvd3ChartVisualization extends Visualization {
           if (!d3g[i]) {
             d3g[i] = {
               values: [],
-              key: (noKey && isMultiBarChart) ? 'values' : colName,
+              key: noKey && isMultiBarChart ? 'values' : colName,
             };
           }
 
-          let xVar = isNaN(rowValue) ? ((allowTextXAxis) ? rowValue : rowNameIndex[rowValue]) : parseFloat(rowValue);
+          let xVar = isNaN(rowValue) ? (allowTextXAxis ? rowValue : rowNameIndex[rowValue]) : parseFloat(rowValue);
           let yVar = self.defaultY();
           if (xVar === undefined) {
             xVar = colName;

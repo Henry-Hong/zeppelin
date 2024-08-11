@@ -14,7 +14,7 @@
 
 import TableData from './tabledata';
 import NetworkData from './networkdata';
-import {DatasetType} from './dataset';
+import { DatasetType } from './dataset';
 
 /**
  * Create table data object from paragraph table type result

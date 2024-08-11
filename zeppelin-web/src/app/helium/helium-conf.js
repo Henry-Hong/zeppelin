@@ -30,7 +30,7 @@ export function mergePersistedConfWithSpec(persisted, spec) {
       const specField = spec[name];
       const persistedValue = persisted[name];
 
-      const value = (persistedValue) ? persistedValue : specField.defaultValue;
+      const value = persistedValue ? persistedValue : specField.defaultValue;
       const merged = {
         name: name,
         type: specField.type,

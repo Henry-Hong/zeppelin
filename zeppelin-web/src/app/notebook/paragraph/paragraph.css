@@ -33,7 +33,7 @@
 
 .paragraph .text {
   display: block !important;
-  font-family: "Monaco","Menlo","Ubuntu Mono","Consolas","source-code-pro",monospace;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
   font-size: 12px !important;
   line-height: 1.42857143 !important;
   margin: 0 0 5px !important;
@@ -53,16 +53,16 @@
 }
 
 .plainTextContainer {
-  font-family: "Monaco","Menlo","Ubuntu Mono","Consolas","source-code-pro",monospace;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
   font-size: 12px !important;
 }
 
-.plainTextContent{
-  white-space:pre-wrap; /** to preserve white-space and newlines of result */
+.plainTextContent {
+  white-space: pre-wrap; /** to preserve white-space and newlines of result */
 }
 
 .plainTextContent div {
-  min-height:17px;
+  min-height: 17px;
 }
 
 .graphContainer {
@@ -77,7 +77,7 @@
 }
 
 .resizable-helper {
-  border: 3px solid #DDDDDD;
+  border: 3px solid #dddddd;
 }
 
 .paragraph .executionTime {
@@ -108,8 +108,8 @@
 }
 
 .paragraphAsIframe .control {
-  background: rgba(255,255,255,0.9);
-  border-top: 1px solid #EFEFEF;
+  background: rgba(255, 255, 255, 0.9);
+  border-top: 1px solid #efefef;
   display: none;
   float: right;
   color: #999;
@@ -125,7 +125,7 @@
 
 .paragraphAsIframe .editor {
   width: 100%;
-  border-left: 4px solid #EEEEEE;
+  border-left: 4px solid #eeeeee;
   background: rgba(255, 255, 255, 0.9);
 }
 
@@ -134,11 +134,11 @@
   display: block;
   unicode-bidi: embed;
   display: block !important;
-  margin: 0 10px 5px!important;
-  font-size: 12px!important;
-  line-height: 1.42857143!important;
-  word-break: break-all!important;
-  word-wrap: break-word!important;
+  margin: 0 10px 5px !important;
+  font-size: 12px !important;
+  line-height: 1.42857143 !important;
+  word-break: break-all !important;
+  word-wrap: break-word !important;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 }
 
@@ -156,8 +156,8 @@
 
 .paragraph .runControl {
   font-size: 1px;
-  color: #AAAAAA;
-  height:4px;
+  color: #aaaaaa;
+  height: 4px;
   margin: 0px 0px 0px 0px;
 }
 
@@ -176,7 +176,7 @@
 .paragraph .control {
   position: absolute;
   float: right;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.85);
   color: #999;
   margin-top: 1px;
   margin-right: 5px;
@@ -299,8 +299,8 @@ table.table-shortcut {
   background: #fff none;
   border: 1px solid #ccc;
   border-radius: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   font-family: 'Roboto', sans-serif;
   font-size: 17px !important;
   font-weight: bold;
@@ -314,13 +314,13 @@ table.table-shortcut {
 
 .paragraph .editor {
   width: 100%;
-  border-left: 4px solid #DDDDDD;
-  background: rgba(255, 255, 255, 0.0);
+  border-left: 4px solid #dddddd;
+  background: rgba(255, 255, 255, 0);
   margin: 7px 0 2px 0;
 }
 
 .paragraph-text--dirty {
-  border-left: 4px solid #E67E22 !important;
+  border-left: 4px solid #e67e22 !important;
 }
 
 .paragraph .ace_print-margin {
@@ -328,19 +328,19 @@ table.table-shortcut {
 }
 
 .paragraph-disable {
-  opacity : 0.6!important;
+  opacity: 0.6 !important;
 }
 
 .ace_marker-layer .ace_selection {
-    z-index: 0 !important;
+  z-index: 0 !important;
 }
 
 .ace_marker-layer .ace_selected-word {
-    z-index: 0 !important;
+  z-index: 0 !important;
 }
 
 .ace-tm {
-  background: #FFFFFF;
+  background: #ffffff;
   color: black;
 }
 
@@ -371,14 +371,19 @@ table.table-shortcut {
   width: 2px !important;
 }
 
-.ace_text-input, .ace_gutter, .ace_layer,
-.emacs-mode, .ace_text-layer, .ace_cursor-layer,
-.ace_cursor, .ace_scrollbar {
+.ace_text-input,
+.ace_gutter,
+.ace_layer,
+.emacs-mode,
+.ace_text-layer,
+.ace_cursor-layer,
+.ace_cursor,
+.ace_scrollbar {
   z-index: auto !important;
 }
 
 .ace_text-input.ace_composition {
- opacity: 0 !important;
+  opacity: 0 !important;
 }
 
 /*
@@ -412,7 +417,6 @@ table.table-shortcut {
   height: auto;
   overflow: auto;
   border-top: 1px solid #ecf0f1;
-
 }
 
 .tableDisplay .option .columns {
@@ -425,11 +429,17 @@ table.table-shortcut {
   width: auto;
   padding: 3px 3px 3px 3px;
   height: 150px;
-  border: 1px solid #CCC;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition:
+    border-color ease-in-out 0.15s,
+    -webkit-box-shadow ease-in-out 0.15s;
+  -o-transition:
+    border-color ease-in-out 0.15s,
+    box-shadow ease-in-out 0.15s;
+  transition:
+    border-color ease-in-out 0.15s,
+    box-shadow ease-in-out 0.15s;
 }
 
 .tableDisplay .option .columns ul li {

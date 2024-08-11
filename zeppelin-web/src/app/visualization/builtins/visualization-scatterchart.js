@@ -66,11 +66,13 @@ export default class ScatterchartVisualization extends Nvd3ChartVisualization {
   configureChart(chart) {
     let self = this;
 
-    chart.xAxis.tickFormat(function(d) { // TODO remove round after bump to nvd3 > 1.8.5
+    chart.xAxis.tickFormat(function (d) {
+      // TODO remove round after bump to nvd3 > 1.8.5
       return self.xAxisTickFormat(Math.round(d * 1e3) / 1e3, self.xLabels);
     });
 
-    chart.yAxis.tickFormat(function(d) { // TODO remove round after bump to nvd3 > 1.8.5
+    chart.yAxis.tickFormat(function (d) {
+      // TODO remove round after bump to nvd3 > 1.8.5
       return self.yAxisTickFormat(Math.round(d * 1e3) / 1e3, self.yLabels);
     });
 
@@ -79,7 +81,8 @@ export default class ScatterchartVisualization extends Nvd3ChartVisualization {
   }
 
   yAxisTickFormat(d, yLabels) {
-    if (yLabels[d] && (isNaN(parseFloat(yLabels[d])) || !isFinite(yLabels[d]))) { // to handle string type xlabel
+    if (yLabels[d] && (isNaN(parseFloat(yLabels[d])) || !isFinite(yLabels[d]))) {
+      // to handle string type xlabel
       return yLabels[d];
     } else {
       return super.yAxisTickFormat(d);
@@ -141,9 +144,10 @@ export default class ScatterchartVisualization extends Nvd3ChartVisualization {
       }
     }
 
-    let isAllDiscrete = ((xAxis && yAxis && this.isDiscrete(xValues) && this.isDiscrete(yValues)) ||
-    (!xAxis && this.isDiscrete(yValues)) ||
-    (!yAxis && this.isDiscrete(xValues)));
+    let isAllDiscrete =
+      (xAxis && yAxis && this.isDiscrete(xValues) && this.isDiscrete(yValues)) ||
+      (!xAxis && this.isDiscrete(yValues)) ||
+      (!yAxis && this.isDiscrete(xValues));
 
     if (isAllDiscrete) {
       rows = this.setDiscreteScatterData(data);
@@ -178,7 +182,7 @@ export default class ScatterchartVisualization extends Nvd3ChartVisualization {
       if (group) {
         grpName = row[group.index];
       }
-      let sz = (isAllDiscrete) ? row[row.length - 1] : ((size) ? row[size.index] : 1);
+      let sz = isAllDiscrete ? row[row.length - 1] : size ? row[size.index] : 1;
 
       if (grpNameIndex[grpName] === undefined) {
         grpIndexValue[grpIdx] = grpName;
@@ -221,13 +225,15 @@ export default class ScatterchartVisualization extends Nvd3ChartVisualization {
 
     // TODO remove sort and dedup after bump to nvd3 > 1.8.5
     let d3gvalues = d3g[grpNameIndex[grpName]].values;
-    d3gvalues.sort(function(a, b) {
-      return ((a['x'] - b['x']) || (a['y'] - b['y']));
+    d3gvalues.sort(function (a, b) {
+      return a['x'] - b['x'] || a['y'] - b['y'];
     });
 
-    for (let i = 0; i < d3gvalues.length - 1;) {
-      if ((Math.abs(d3gvalues[i]['x'] - d3gvalues[i + 1]['x']) < epsilon) &&
-           (Math.abs(d3gvalues[i]['y'] - d3gvalues[i + 1]['y']) < epsilon)) {
+    for (let i = 0; i < d3gvalues.length - 1; ) {
+      if (
+        Math.abs(d3gvalues[i]['x'] - d3gvalues[i + 1]['x']) < epsilon &&
+        Math.abs(d3gvalues[i]['y'] - d3gvalues[i + 1]['y']) < epsilon
+      ) {
         d3gvalues.splice(i + 1, 1);
       } else {
         i++;
@@ -300,7 +306,7 @@ export default class ScatterchartVisualization extends Nvd3ChartVisualization {
   }
 
   isDiscrete(field) {
-    let getUnique = function(f) {
+    let getUnique = function (f) {
       let uniqObj = {};
       let uniqArr = [];
       let j = 0;
@@ -315,8 +321,7 @@ export default class ScatterchartVisualization extends Nvd3ChartVisualization {
     };
 
     for (let i = 0; i < field.length; i++) {
-      if (isNaN(parseFloat(field[i])) &&
-        (typeof field[i] === 'string' || field[i] instanceof String)) {
+      if (isNaN(parseFloat(field[i])) && (typeof field[i] === 'string' || field[i] instanceof String)) {
         return true;
       }
     }
@@ -355,9 +360,10 @@ export default class ScatterchartVisualization extends Nvd3ChartVisualization {
     }
 
     // check if all existing fields are discrete
-    let isAllDiscrete = ((options.xAxis && options.yAxis && this.isDiscrete(xValues) && this.isDiscrete(yValues)) ||
-    (!options.xAxis && this.isDiscrete(yValues)) ||
-    (!options.yAxis && this.isDiscrete(xValues)));
+    let isAllDiscrete =
+      (options.xAxis && options.yAxis && this.isDiscrete(xValues) && this.isDiscrete(yValues)) ||
+      (!options.xAxis && this.isDiscrete(yValues)) ||
+      (!options.yAxis && this.isDiscrete(xValues));
 
     if (isAllDiscrete) {
       return false;

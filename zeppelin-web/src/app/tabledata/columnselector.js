@@ -40,10 +40,10 @@ export default class ColumnselectorTransformation extends Transformation {
         config: self.config,
         props: self.props,
         tableDataColumns: self.tableDataColumns,
-        save: function() {
+        save: function () {
           self.emitConfig(configObj);
         },
-        remove: function(selectorName) {
+        remove: function (selectorName) {
           configObj[selectorName] = null;
           self.emitConfig(configObj);
         },
@@ -73,7 +73,7 @@ export default class ColumnselectorTransformation extends Transformation {
             break;
           }
         }
-        if (!found && (fields[f] instanceof Object) && !(fields[f] instanceof Array)) {
+        if (!found && fields[f] instanceof Object && !(fields[f] instanceof Array)) {
           fields[f] = null;
         }
       }

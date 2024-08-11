@@ -12,36 +12,34 @@
  * limitations under the License.
  */
 
- @media print {
+@media print {
+  body {
+    padding-top: 0px;
+  }
 
-   body {
-     padding-top: 0px;
-   }
+  .navbar-fixed-top {
+    display: none !important;
+  }
 
-   .navbar-fixed-top {
-      display: none !important;
-   }
+  .noteAction {
+    position: initial;
+  }
 
-   .noteAction {
-      position: initial;
-   }
+  .noteAction .btn-group,
+  .noteAction .labelBtn,
+  .noteAction .pull-right {
+    display: none !important;
+  }
 
-   .noteAction .btn-group,
-   .noteAction .labelBtn,
-   .noteAction .pull-right {
-      display: none !important;
-   }
+  .control span[class^='icon-'] {
+    display: none;
+  }
 
-   .control span[class^="icon-"] {
-      display: none;
-   }
+  .notebookContent {
+    padding-top: 0px;
+  }
 
-   .notebookContent {
-     padding-top: 0px;
-   }
-
-   .new-paragraph {
-      display: none;
-   }
-
- }
+  .new-paragraph {
+    display: none;
+  }
+}

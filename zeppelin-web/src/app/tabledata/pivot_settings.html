@@ -12,24 +12,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class="panel panel-default" style="margin-top: 10px; margin-bottom: 11px;">
-  <div class="panel-heading"
-       style="padding: 6px 12px 6px 12px; font-size: 13px;">
-    <span style="vertical-align: middle; display: inline-block; margin-top: 3px;">Available Fields</span>
-    <div style="clear: both;"></div> <!-- to fix previous span which has float: right -->
+<div class="panel panel-default" style="margin-top: 10px; margin-bottom: 11px">
+  <div class="panel-heading" style="padding: 6px 12px 6px 12px; font-size: 13px">
+    <span style="vertical-align: middle; display: inline-block; margin-top: 3px">Available Fields</span>
+    <div style="clear: both"></div>
+    <!-- to fix previous span which has float: right -->
   </div>
 
   <!-- panel-body: columns -->
-  <div class="panel-body"
-       style="padding: 8px; margin-top: 3px;">
+  <div class="panel-body" style="padding: 8px; margin-top: 3px">
     <ul class="noDot">
       <li class="liVertical" ng-repeat="col in tableDataColumns">
-        <div class="btn btn-default btn-xs"
-             style="background-color: #EFEFEF;"
-             data-drag="true"
-             data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
-             ng-model="tableDataColumns"
-             jqyoui-draggable="{index: {{$index}}, placeholder: 'keep'}">
+        <div
+          class="btn btn-default btn-xs"
+          style="background-color: #efefef"
+          data-drag="true"
+          data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
+          ng-model="tableDataColumns"
+          jqyoui-draggable="{index: {{$index}}, placeholder: 'keep'}"
+        >
           {{col.name | limitTo: 30}}{{col.name.length > 30 ? '...' : ''}}
         </div>
       </li>
@@ -37,25 +38,32 @@ limitations under the License.
   </div>
 
   <!-- panel-body: axis -->
-  <hr style="margin: 1px;" />
-  <div class="panel-body"
-       style="margin-top: 7px; padding-top: 9px; padding-bottom: 4px;">
+  <hr style="margin: 1px" />
+  <div class="panel-body" style="margin-top: 7px; padding-top: 9px; padding-bottom: 4px">
     <!-- axis: keys -->
     <div class="col-sm-4">
       <div class="columns lightBold">
-        <span class="label label-default"
-              style="background-color: #906ebd; font-weight: 300; font-size: 13px; margin-left: 1px;">keys</span>
-        <ul ng-model="config.keys"
-            data-drop="true" jqyoui-droppable="{multiple:true, onDrop:'save()'}"
-            class="list-unstyled"
-            style="border-radius: 6px; margin-top: 7px;">
-          <li ng-repeat="item in config.keys track by $index"
-              ng-model="config.keys"
-              data-drag="true"
-              jqyoui-draggable="{index: {{$index}}, animate: false}"
-              data-jqyoui-options="{revert: 'invalid', placeholder: 'keep', helper: 'clone'}">
-            <div class="btn btn-default btn-xs"
-                 style="background-color: #EFEFEF; margin: 2px 0px 0px 2px;">
+        <span
+          class="label label-default"
+          style="background-color: #906ebd; font-weight: 300; font-size: 13px; margin-left: 1px"
+        >
+          keys
+        </span>
+        <ul
+          ng-model="config.keys"
+          data-drop="true"
+          jqyoui-droppable="{multiple:true, onDrop:'save()'}"
+          class="list-unstyled"
+          style="border-radius: 6px; margin-top: 7px"
+        >
+          <li
+            ng-repeat="item in config.keys track by $index"
+            ng-model="config.keys"
+            data-drag="true"
+            jqyoui-draggable="{index: {{$index}}, animate: false}"
+            data-jqyoui-options="{revert: 'invalid', placeholder: 'keep', helper: 'clone'}"
+          >
+            <div class="btn btn-default btn-xs" style="background-color: #efefef; margin: 2px 0px 0px 2px">
               {{item.name}}
               <span class="fa fa-close" ng-click="removeKey($index)"></span>
             </div>
@@ -66,20 +74,27 @@ limitations under the License.
     <!-- axis: groups -->
     <div class="col-sm-4">
       <div class="columns lightBold">
-      <span class="label label-default"
-            style="background-color: #cd5c5c; font-weight: 300; font-size: 13px; margin-left: 1px;">groups</span>
-        <ul data-drop="true"
+        <span
+          class="label label-default"
+          style="background-color: #cd5c5c; font-weight: 300; font-size: 13px; margin-left: 1px"
+        >
+          groups
+        </span>
+        <ul
+          data-drop="true"
+          ng-model="config.groups"
+          jqyoui-droppable="{multiple:true, onDrop:'save()'}"
+          class="list-unstyled"
+          style="border-radius: 6px; margin-top: 7px"
+        >
+          <li
+            ng-repeat="item in config.groups track by $index"
             ng-model="config.groups"
-            jqyoui-droppable="{multiple:true, onDrop:'save()'}"
-            class="list-unstyled"
-            style="border-radius: 6px; margin-top: 7px;">
-          <li ng-repeat="item in config.groups track by $index"
-              ng-model="config.groups"
-              data-drag="true"
-              jqyoui-draggable="{index: {{$index}}, animate: false}"
-              data-jqyoui-options="{revert: 'invalid', placeholder: 'keep', helper: 'clone'}">
-            <div class="btn btn-default btn-xs"
-                 style="background-color: #EFEFEF; margin: 2px 0px 0px 2px;">
+            data-drag="true"
+            jqyoui-draggable="{index: {{$index}}, animate: false}"
+            data-jqyoui-options="{revert: 'invalid', placeholder: 'keep', helper: 'clone'}"
+          >
+            <div class="btn btn-default btn-xs" style="background-color: #efefef; margin: 2px 0px 0px 2px">
               {{item.name}}
               <span class="fa fa-close" ng-click="removeGroup($index)"></span>
             </div>
@@ -90,24 +105,35 @@ limitations under the License.
     <!-- axis: values -->
     <div class="col-sm-4">
       <div class="columns lightBold">
-      <span class="label label-default"
-            style="background-color: #5782bd; font-weight: 300; font-size: 13px; margin-left: 1px;">values</span>
-        <ul data-drop="true"
+        <span
+          class="label label-default"
+          style="background-color: #5782bd; font-weight: 300; font-size: 13px; margin-left: 1px"
+        >
+          values
+        </span>
+        <ul
+          data-drop="true"
+          ng-model="config.values"
+          jqyoui-droppable="{multiple:true, onDrop:'save()'}"
+          class="list-unstyled"
+          style="border-radius: 6px; margin-top: 7px"
+        >
+          <li
+            ng-repeat="item in config.values track by $index"
             ng-model="config.values"
-            jqyoui-droppable="{multiple:true, onDrop:'save()'}"
-            class="list-unstyled"
-            style="border-radius: 6px; margin-top: 7px;">
-          <li ng-repeat="item in config.values track by $index"
-              ng-model="config.values"
-              data-drag="true"
-              jqyoui-draggable="{index: {{$index}}, animate: false}"
-              data-jqyoui-options="{revert: 'invalid', placeholder: 'keep', helper: 'clone'}">
+            data-drag="true"
+            jqyoui-draggable="{index: {{$index}}, animate: false}"
+            data-jqyoui-options="{revert: 'invalid', placeholder: 'keep', helper: 'clone'}"
+          >
             <div class="btn-group">
-              <div class="btn btn-default btn-xs dropdown-toggle"
-                   style="background-color: #EFEFEF;"
-                   type="button" data-toggle="dropdown">
+              <div
+                class="btn btn-default btn-xs dropdown-toggle"
+                style="background-color: #efefef"
+                type="button"
+                data-toggle="dropdown"
+              >
                 {{item.name | limitTo: 30}}{{item.name.length > 30 ? '...' : ''}}
-                <span class="lightBold" style="text-transform: uppercase; color:#717171;">{{item.aggr}}</span>
+                <span class="lightBold" style="text-transform: uppercase; color: #717171">{{item.aggr}}</span>
                 <span class="fa fa-close" ng-click="removeValue($index)"></span>
               </div>
               <ul class="dropdown-menu" role="menu">
@@ -122,6 +148,7 @@ limitations under the License.
         </ul>
       </div>
     </div>
-  </div> <!-- panel-body -->
-</div> <!-- panel -->
-
+  </div>
+  <!-- panel-body -->
+</div>
+<!-- panel -->
