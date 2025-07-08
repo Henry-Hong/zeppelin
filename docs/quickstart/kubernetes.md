@@ -169,7 +169,7 @@ $ ./mvnw package -DskipTests -Pbuild-distr <your flags>
 Binary package will be created under `zeppelin-distribution/target` directory. Move created package file under `scripts/docker/zeppelin/bin/` directory.
 
 ```
-$ mv zeppelin-distribution/target/zeppelin-*.tar.gz scripts/docker/zeppelin/bin/
+$ mv zeppelin-distribution/target/zeppelin-*-bin.tgz scripts/docker/zeppelin/bin/
 ```
 
 `scripts/docker/zeppelin/bin/Dockerfile` downloads package from internet. Modify the file to add package from filesystem.
@@ -179,7 +179,7 @@ $ mv zeppelin-distribution/target/zeppelin-*.tar.gz scripts/docker/zeppelin/bin/
 
 # Find following section and comment out
 #RUN echo "$LOG_TAG Download Zeppelin binary" && \
-#    wget -O /tmp/zeppelin-${Z_VERSION}-bin-all.tgz http://archive.apache.org/dist/zeppelin/zeppelin-${Z_VERSION}/zeppelin-${Z_VERSION}-bin-all.tgz && \
+#    wget -O /tmp/zeppelin-${Z_VERSION}-bin-all.tgz "https://www.apache.org/dyn/closer.lua/zeppelin/zeppelin-${Z_VERSION}/zeppelin-${Z_VERSION}-bin-all.tgz?action=download" && \
 #    tar -zxvf /tmp/zeppelin-${Z_VERSION}-bin-all.tgz && \
 #    rm -rf /tmp/zeppelin-${Z_VERSION}-bin-all.tgz && \
 #    mv /zeppelin-${Z_VERSION}-bin-all ${ZEPPELIN_HOME}
@@ -231,7 +231,7 @@ and all interpreter properties are accessible inside the templates.
 
 When interpreter group is `spark`, Zeppelin sets necessary spark configuration automatically to use Spark on Kubernetes.
 It uses client mode, so Spark interpreter Pod works as a Spark driver, spark executors are launched in separate Pods.
-This auto configuration can be overrided by manually setting `spark.master` property of Spark interpreter.
+This auto configuration can be overridden by manually setting `spark.master` property of Spark interpreter.
 
 
 ### Accessing Spark UI (or Service running in interpreter Pod)
@@ -266,7 +266,7 @@ If you like to use your custom domain
 ## Persist /notebook and /conf directory
 
 Notebook and configurations are not persisted by default. Please configure volume and update `k8s/zeppelin-server.yaml`
-to use the volume to persiste /notebook and /conf directory if necessary.
+to use the volume to persist /notebook and /conf directory if necessary.
 
 
 ## Customization

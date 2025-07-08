@@ -81,8 +81,9 @@ export class InterpreterItemComponent extends DestroyHookComponent implements On
           name: key
         };
       });
+    this.addProperties()
     formData.properties = properties;
-
+    this.addDependence()
     formData.dependencies.forEach(e => {
       e.exclusions = e.exclusions.split(',').filter(s => s !== '');
     });
@@ -291,9 +292,10 @@ export class InterpreterItemComponent extends DestroyHookComponent implements On
 
       // set dependencies fields
       this.interpreter.dependencies.forEach(e => {
+        const exclusions = Array.isArray(e.exclusions) ? e.exclusions : [];
         this.dependenciesFormArray.push(
           this.formBuilder.group({
-            exclusions: [e.exclusions.join(',')],
+            exclusions: [exclusions.join(',')],
             groupArtifactVersion: [e.groupArtifactVersion, [Validators.required]]
           })
         );

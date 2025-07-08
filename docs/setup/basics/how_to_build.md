@@ -83,7 +83,7 @@ You can directly start Zeppelin by running the following command after successfu
 
 To be noticed, the spark profiles here only affect the unit test (no need to specify `SPARK_HOME`) of spark interpreter. 
 Zeppelin doesn't require you to build with different spark to make different versions of spark work in Zeppelin.
-You can run different versions of Spark in Zeppelin as long as you specify `SPARK_HOME`. Actually Zeppelin supports all the versions of Spark from 3.2 to 3.5.
+You can run different versions of Spark in Zeppelin as long as you specify `SPARK_HOME`. Actually Zeppelin supports all the versions of Spark from 3.3 to 3.5.
 
 To build with a specific Spark version or scala versions, define one or more of the following profiles and options:
 
@@ -97,7 +97,6 @@ Available profiles are
 -Pspark-3.5
 -Pspark-3.4
 -Pspark-3.3
--Pspark-3.2
 ```
 
 minor version can be adjusted by `-Dspark.version=x.x.x`
@@ -114,19 +113,12 @@ Available profiles are
 -Pspark-scala-2.13
 ```
  
-#### Build hadoop with Zeppelin (`-Phadoop[version]`)
+#### Build hadoop with Zeppelin
  
 To be noticed, hadoop profiles only affect Zeppelin server, it doesn't affect any interpreter. 
 Zeppelin server use hadoop in some cases, such as using hdfs as notebook storage. You can check this [page](./hadoop_integration.html) for more details about how to configure hadoop in Zeppelin.
 
-Set hadoop major version (default hadoop3).
-Available profiles are
-
-```
--Phadoop3
-```
-
-minor version can be adjusted by `-Dhadoop.version=x.x.x`
+Hadoop version can be adjusted by `-Dhadoop.version=x.x.x`
 
 
 ##### `-Pvendor-repo` (optional)
@@ -143,11 +135,11 @@ Build examples under zeppelin-examples directory
 Here are some examples with several options:
 
 ```bash
-# build with spark-3.3, spark-scala-2.12
-./mvnw clean package -Pspark-3.3 -Pspark-scala-2.12 -DskipTests
+# build with spark-3.5, spark-scala-2.12
+./mvnw clean package -Pspark-3.5 -Pspark-scala-2.12 -DskipTests
 
-# build with spark-3.4, spark-scala-2.13
-./mvnw clean package -Pspark-3.4 -Pspark-scala-2.13 -DskipTests
+# build with spark-3.5, spark-scala-2.13
+./mvnw clean package -Pspark-3.5 -Pspark-scala-2.13 -DskipTests
 
 ```
 
@@ -288,10 +280,10 @@ To package the final distribution including the compressed archive, run:
 To build a distribution with specific profiles, run:
 
 ```sh
-./mvnw clean package -Pbuild-distr -Pspark-3.4
+./mvnw clean package -Pbuild-distr -Pspark-3.5
 ```
 
-The profiles `-Pspark-3.4` can be adjusted if you wish to build to a specific spark versions.  
+The profiles `-Pspark-3.5` can be adjusted if you wish to build to a specific spark versions.  
 
 The archive is generated under _`zeppelin-distribution/target`_ directory
 
@@ -305,5 +297,3 @@ mvn verify
 # or take care of starting/stoping zeppelin-server from packaged zeppelin-distribuion/target
 mvn verify -P using-packaged-distr
 ```
-
-[![Analytics](https://ga-beacon.appspot.com/UA-45176241-4/apache/zeppelin/README.md?pixel)](https://github.com/igrigorik/ga-beacon)
